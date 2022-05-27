@@ -1,0 +1,765 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\setlength{\parindent}{1.5em}
+\chapter*{Ackonowledgements}
+	\begin{flushleft}
+	\begin{minipage}[t]{12cm}
+		This book is based heavily on the book Introduction to \textit{Scientific Computing
+		in Python}, by Lance J. Nelson and Matthew R. Zachreson at BYU Idaho. With
+		their permission, I\textquotesingle ve adapted their material to our use here at BYU Provo. In
+		a sort of virtuous cycle, Ross Spencer and I had previously allowed Lance and
+		Matthew to borrow material from our book \textit{Introduction to Matlab} in the creation
+		of their \textit{Introduction to Scientific Computing in Python}. Thus, this work is a
+		mix of content from the BYU Idaho Python book, our original Matlab book, and
+		new and modified material specific to this edition. I express sincere thanks and
+		acknowledgment to Ross, Lance, and Matthew for all of the work that has gone
+		into development this material.I\textquotesingle ve put my name as author of this edition to
+		reflect the fact that I am the one editing this particular offshoot of our combined
+		work.
+	\end{minipage}
+	\end{flushleft}
+	\chapter*{Preface}
+	\setlength{\parindent}{1.5em}
+	\begin{flushleft}
+	\begin{minipage}[t]{10cm}
+		This book is a tutorial for physics students to get up to speed using Python for
+		scientific computing as quickly as possible. It assumes that the reader is already
+		familiar with the basics of scientific programming in another programming language, and does not spend time systematically going through the 			    fundamentals
+  		of programming. This tutorial is designed to work hand-in-hand with the BYU
+		Physics 430 lab manual. Each chapter in this tutorial is designed to give students
+		enough understanding of the Python syntax and ecosystem to tackle a specific
+		scientific computing lab, and in doing so will sample from a range of different
+		topics.\\
+		\indent Students in the class for which the book is designed have previously taken
+		a three$-$credit introductory programming class in C++, a one-credit lab courses
+		introducing them to Mathematica, and another one-credit lab course introducing
+		them Matlab. In this book, we build on that foundation, without trying to re-teach
+		(at least not too much) the material already covered in prior classes. We also
+		present material in the order needed to complete the associated labs rather than
+		as a systematic and complete treatment of each topic before moving to the next.
+		As you find mistakes or have suggestions, send them to me at ware@byu.edu
+	\end{minipage}
+	\end{flushleft}
+	\newpage
+	\begin{parcolumns}[colwidths={2=0.25\linewidth}]{2}
+\colchunk
+{
+	\chapter{\textbf{Numpy, Scipy, and Plotting}}
+		\section{\textbf{Get Anaconda Installed}}
+			Python is a popular general$-$purpose programming language that has become a
+			standard language for many areas of scientific computing. It is open source, and
+			there are many implementations of Python, many development environments
+			for it, and multiple versions of the programming language itself. We will use
+			the Anaconda distribution for Python version 3.7. The Anaconda distribution is
+			geared toward scientific computing, is available as a free download on all major
+			platforms, and comes with an integrated development environment (IDE) called
+			Spyder. Anaconda Python is installed on the lab computers, and we recommend
+			that you also install it on your personal computers so you can work at home (see
+			anaconda.com).
+		\section{\textbf{Your First Program}}
+			Launch the Spyder IDE. You should see a window similar to the one in \hyperref[Figure 1.1]{Figure 1.1}.
+			The Spyder IDE interface is divided into three main windows:
+		\begin{itemize}
+		\item \small{The code editor on the left is where you edit your Python code files (usually with a .py extension).}
+		
+  		\item \small{The top right pane has three default tabs a variable explorer where you can view current values stored in memory, a file explorer where you can browse your files, and a help tab where you can ask questions} 
+  		
+ 		\item \small{The lower right pane is a console window where your output will be displayed and you can issue Python commands directly to be evaluated}
+  		\ldots 
+  		
+		\end{itemize}
+		To write your first program, press the \textquotesingle\textquotesingle New File\textquotesingle\textquotesingle button on the toolbar, erase any  
+		auto$-$generated text so you have a blank window, and then type \\
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		print('Hello World')
+	\end{lstlisting}
+		Save your program in a new directory (where you will save all your work for this
+		class) with the name hello.py, then click the green arrow above the editor. Spyder
+		may ask you in which console you\'{}d like to execute the program. Just accept the 
+		default values, and then look down at the console window. There you will see
+		some code that Spyder auto-generated to run your program, and under it should
+		be the output from your program:
+		\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		Hello World
+	    \end{lstlisting}
+	}
+	\colchunk
+	{
+	\begin{wrapfigure}{r}{7cm}
+	\captionsetup{singlelinecheck=off, margin={3.67cm, 0cm}, justification=raggedright, format=hang}
+	\caption{The Spyder IDE window.}
+	\label {Figure 1.1}
+	\includegraphics[width = 4cm]{latex12}
+	\end{wrapfigure}
+	}
+	\end{parcolumns}
+	\newpage
+	\begin{flushright}
+	\begin{minipage}[t]{12cm}
+		Congratulations, you just executed your first Python program. Change the text
+		string \textcolor{green}{'Hello World'} to something else, and then click the green arrow again.
+		Notice that Spyder saves your code and executes the program again. If you get
+		tired of clicking the green arrow, F5 is the keyboard shortcut to save and execute
+		the code shown in the editor.
+	\section{\textbf{The Python Console}}
+		Spyders console window is a powerful environment called Interactive Python %\'{}s
+		(or IPython for short) where you can directly enter Python commands. Put your
+		cursor in the console window at the In [1]: prompts, type
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		1+1
+	\end{lstlisting}
+		and press enter. You should see the answer, stored in a variable Out[1]. You can
+		use this output in later calculations by typing the following at the In[2]: prompt:
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		Out[1]+2
+	\end{lstlisting}
+	Notice that your new result is stored in Out[2]. IPython behaves a lot like a Matlab\textquotesingle s command window, with a series of inputs and variable values accumulating
+	in the workspace. When you run your Python programs, your variables are placed
+	in the console workspace and can be accessed from the command line afterward. %\'{}s console
+	With your cursor in the command window, press the Up-Arrow key, and notice
+	that you can access your command history with the up and down arrow keys.\\
+	\indent The console can be useful for quick calculations or for looking at data when
+	debugging, but you should do most of your programming in the editor. Add the
+	following line to your hello.py program
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		1+1
+	\end{lstlisting}
+	and run it again. Note that the answer to 1+1 is not displayed in the console when
+	you run the program. Now switch your program to read
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		print(1+1)
+	\end{lstlisting}
+	and run it again, and note that the answer displayed in all its glory. Python
+	evaluates each line of code, but will not display the result of a calculation in the
+	console unless you \textcolor{violet}{print} it.\\
+	\indent As we go through the remainder of the text, type all the indented example
+	code into a *.py file in the editor by hand (don\textquotesingle t copy and paste) and execute it %%%don't
+	using the green arrow (or the F5 keyboard shortcut). This method of interacting
+	with the code will help you better process and understand what each command
+	does. It forces you to read the code like Python will: one line at a time, top to
+	bottom. Also, place each command on a separate line and do not indent any lines %%dont
+	of code when you type them in. Python really cares about white space. We will learn
+	more about that in the next chapter.
+	\end{minipage}
+	\end{flushright}
+	\begin{flushleft}
+	\begin{minipage}[t]{12cm}
+	\section{\textbf{Variables and Data Types}}
+		Variables in Python do not need to be declared before being used. You declare a 
+		variable and assign it a value in one statement using the assignment operator (=),
+		like this
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		x = 20
+	\end{lstlisting}
+		(Did you type the line of code into your program and execute it? If not, do so now
+		and get in that habit.) This statement creates the variable x and assigns it a value
+		of 20. Python did not print anything since we didn\textquotesingle t include a print command. To %\textquotesingle to robi apostrof (')
+		convince yourself that the variable x was defined, click on the \textquotesingle\textquotesingle Variable explorer\textquotesingle\textquotesingle 
+		tab in the upper$-$right pane of Spyder to see that the variable exists, and has a
+		value of 20. Also type x in the console window and hit enter, and note that Python
+		displays its value. Now add the line
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		x = x + 1
+	\end{lstlisting}
+		to your program, execute it, and look at the new value of x to convince yourself
+		that the program executed correctly. Multiple variables are defined by putting the
+		assignments on separate lines, like this
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		a = 2
+		b = 4
+		c = a * b
+	\end{lstlisting}
+		Sometimes you may want your program to prompt the user to enter a value
+		and then save the value that the user inputs to a variable. This can be done like
+		this:
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		a = input('What is your age?')
+	\end{lstlisting}
+		When you run this line of code, you will be prompted to enter your age. When
+	you do, the number you enter will be saved to the variable a.\\
+	\indent Variable names must start with a letter or an underscore and consist of only
+	letters, numbers, and underscores. Variable names are case sensitive, so watch
+	your capitalization.
+	\section{\textbf{Integers}}
+		The simplest type of numerical data is an integer. Python implicitly declares
+		variables as integers when you assign an integer values to the variable, as we did
+		above. You can perform all the common mathematical operations on integer
+		variables. For example:
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		a = 20
+		b = 15
+		c = a + b # add two numbers
+		d = a/b # floating point division
+	\end{lstlisting}
+	\end{minipage}
+	\end{flushleft}
+	\begin{flushright}
+	\begin{minipage}[t]{4cm}
+	 	\text{*}Notice that we\'{}ve introduced the Python commenting syntax here: any
+		text following the symbol \#{}
+		on a line is ignored by the
+		Python interpreter.
+	\end{minipage}
+	\end{flushright}
+	\newpage
+	\begin{parcolumns}[colwidths={1=0.25\textwidth}]{2}
+	\colchunk{\text{*}In Python 2.x the single
+		slash between two integer
+		variables performs integer
+		division. If you are using
+		this older version of Python,
+		you should be sure to use
+		floats when you want regular division.\\
+		\begin{wraptable}{r}{5.5cm}
+		\caption{A sampling of built$-$in functions commonly used with integers and floats.}\label{Table 1.1}
+	\begin{tabular}{  m{1.5cm} m{2.5cm} }
+\textcolor{violet}{abs}(x)  & Find the absolute
+		value of x  \\ 
+ \textcolor{violet}{divmod}(x,y) & Returns the
+		quotient and remainder when
+		using long division.  \\  
+ x\%{}y & Return the remainder
+		of$\dfrac{x}{y}$  \\
+ \textcolor{violet}{float}(x) & convert x to a float.  \\ 
+\textcolor{violet}{int}(x)  &  convert x to aninteger. \\  
+ \textcolor{violet}{round}(x) & Round the number x using standardrounding rules
+\end{tabular}
+\end{wraptable}
+}
+	\colchunk{
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		i = a//b # integer division
+		r = a % b # return only the remainder
+		(an integer) of the division
+		e = a * b # multiply two numbers together
+		f = c**4 # raise number to a power (use **, not ^)
+	\end{lstlisting}
+		Performing an operation on two integers usually yields another integer. This can
+		pose an ambiguity for division where the result is rarely an exact integer. Using the
+		regular division operator (as in the line defining d above) for two integers yields
+		a float, whereas the double slash (used in the line defining i) performs integer
+		division. Look at the variable values in the variable explorer and compare them
+		to your code to convince yourself that you understand the distinction between
+		these two types of division.
+	\section{\textbf{Float variables}}
+		Most calculations in physics should be performed using floating point numbers,
+		called floats in Python. Float variables are created and assigned in one of two
+		ways. The first way is to simply include a decimal point in the number, like this
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		a = 20
+	\end{lstlisting}
+		You can also cast an integer variable to a float variable using the \textcolor{violet}{float} command
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		a = 20
+		b = float(a)
+	\end{lstlisting}
+		When a float and an integer are used in the same calculation, like this
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		a = 0.1
+		b = 3 * a #Integer multiplied by a float 
+		results in a float.
+	\end{lstlisting}
+		the result is always a float. Only when all of the numbers used in a calculation
+		are integers will the result be an integer. Floats can be entered using scientific
+		notation like this
+		$$y = 1.23e15$$
+	\section{\textbf{Functions and Help}} 
+	\hyperref[Table 1.1]{Table 1.1} shows some common housekeeping functions that you can use with
+	float variables. Practice using one of these functions in your code. Then place
+	your cursor on the function name in your code and press Ctrl-I (think \textquotesingle\textquotesingle I is for
+	information) to display detailed information about this function in the help panel.
+	You can use this method for getting details of calling conventions and function
+	usage for all of the functions we use in this class. }
+	\end{parcolumns}
+	\newpage
+	\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+	\colchunk{
+	\section{\textbf{Boolean variables}}
+		Boolean variables store one of two possible values: True or False. A boolean
+		variable is created and assigned similar to the other variables you\textquotesingle ve studied so
+		far
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		q = True
+	\end{lstlisting}
+		Boolean variables will be useful when we use loops and logical statements.
+		\section{\textbf{String Variables}}
+		String variables contain a sequence of characters, and can be created and assigned
+		using quotes, like this
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		s='This is a string'
+	\end{lstlisting}
+		You may also enclose the characters in double quotes. This syntax is convenient
+		when there are single quotes in your string:
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		t="Don't worry"
+	\end{lstlisting}
+		Some Python functions require options to be passed to them as strings. Make sure
+		you enclose them in quotes, as shown above. Some commonly used functions for
+		strings are shown in \hyperref[Table 1.2]{Table 1.2}
+	\section{\textbf{Formatting Printed Values}}
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		a = 22
+		b = 3.5
+		print("I am {:d} years old and my GPA is:
+	 	{:5.2f}".format(a, b))
+		#This style also works
+		joe_string="My GPA is {:5.2f} and I am
+	 	{:d} years old."
+		print(joe_string.format(b,a))
+	\end{lstlisting}
+		Notice the structure of this formatted print statement: A string followed by the .
+	operator and the \textcolor{violet}{format}() method. Those of you familiar with object-oriented
+	coding will notice that this is an example of Pythons fully object-oriented structure. The variables to be printed are provided as arguments to the \textcolor{violet}{format} method
+	and are inserted into the string sequentially where curly braces ({}) are found.
+	The characters inside of the curly braces are format codes that indicates how you
+	would like the variable formatted when it is printed. The :d indicates an integer
+	variable and :f indicates a float. The 5.2 in the float formatting indicates that
+	I would like the number to be displayed with at least 5 digits and 2 numbers after the 
+	decimal. See \hyperref[Table 1.3]{Table 1.3} for format examples.}
+\colchunk{
+\raggedleft
+	\begin{wraptable}{l}{4.5cm}
+	\begin{tabular}{  m{1.5cm} m{2.5cm} }
+len(c)   & Get the number of
+characters in the
+string c \\ 
+a.count(b) & Count the number
+of occurrences of
+string b in string a \\  
+ a.lower()  & Convert upper case
+letters to lower case \\
+ a[x]  & Access element x in
+string a  \\ 
+a[x:y:z]   &  lice a string, starting at element x,
+ending at element y,
+with a step size of z \\  
+ a + b  & Concatenate strings
+a and b.
+\end{tabular}
+ \caption{A sampling of \textquotesingle\textquotesingle house$-$keeping\textquotesingle\textquotesingle functions for strings.}\label{Table 1.2}
+ \begin{tabular}{  m{1.5cm} m{2.5cm} }
+  {} & Use the default format for the data type\\ 
+{:4d}  & Display integer with
+4 spaces \\  
+ {:.4f}   & Display float with 4
+numbers after the
+decimal \\
+ {:8.4f}   & Display float with at
+least 8 total spaces
+and 4 numbers after
+the decimal \\ 
+{:1.2e}    &  Scientific notation
+with 2 digits after
+the decimal
+\end{tabular}
+\caption{Formatting strings available when printing.}\label{Table 1.3}
+\end{wraptable}
+}
+\end{parcolumns}	
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+	\colchunk{
+\section{\textbf{ Functions and Libraries (Numpy)}}
+	The syntax for calling Python functions is fairly standard: you type the name of
+	the function and put parentheses () around the arguments, like this
+\begin{flushleft}
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	x = 3.14
+	y = round(x)
+\end{lstlisting}
+\end{flushleft}
+	If the function requires more than one argument or returns more than one value,
+	you separate the arguments and outputs with commas, like this
+\begin{flushleft}
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	x = 3.14
+	y = 2
+	b,c = divmod(x,y)
+\end{lstlisting}
+\end{flushleft}
+	Pause a moment after executing this code to compare the values of b and c with
+	the code above, and convince yourself that you understand how function calls
+	work with multiple arguments and outputs in Python.\\
+	\indent Python contains a set of standard functions, called native functions, that are
+	always ready to go whenever you run Python. All the functions we have used so   %\'{}
+	far fall into this category. While useful, these native functions are inadequate
+	for scientific computing. However, user communities have created extensive
+	collections of functions called \textit{libraries} that you can import into Python to extend
+	its native capabilities.\\
+	\indent For example, Python does not natively include the sine and cosine functions.  
+	However, virtually any mathematical function that you will need to perform a
+	scientific calculation can be found in a library called NumPy (say \textquotesingle\textquotesingle num pie\textquotesingle\textquotesingle ,
+	something that rhymes with grumpy). To use this library, we add an \textcolor{violet}{import}
+	statement to the beginning of our program, and then reference the functions in
+	this library like this
+\begin{flushleft}
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	import numpy
+	x = numpy.pi # Get the value of pi
+	y = numpy.sin(x) # Find the sine of pi radians
+	z = numpy.sqrt(x) # Take the square root of pi
+\end{lstlisting}
+\end{flushleft}
+	After importing the library, the code numpy. before a function tells Python to   %%%%%\“{}numpy.\”{}
+	look in the NumPy library to find the function rather than in the native functions.
+	If you just type
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	sgrt(x)
+\end{lstlisting}
+	Python will look for a native function named sqrt and will give you an error.
+	A library can be imported and then referenced by a different name like this:
+\begin{flushleft}
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	import numpy as np
+	x = np.sqrt(5.2) # Take the square root of 5.2
+	y = np.pi # Get the value of pi
+	z = np.sin(34) # Find the sine of 34 radians
+\end{lstlisting}
+\end{flushleft}
+}
+\colchunk{
+	\begin{wraptable}{l}{4.5cm}
+	\begin{tabular}{  m{2cm} }
+sin(x)\\
+cos(x)\\
+tan(x)\\
+arcsin(x)\\
+arccos(x)\\
+arctan(x)\\
+sinh(x)\\
+cosh(x)\\
+tanh(x)\\
+sign(x)\\
+exp(x)\\
+sqrt(x)\\
+log(x)\\
+log10(x)\\
+log2(x)
+\end{tabular}
+\caption{ A very small sampling of
+functions belonging to the numpy
+library.}\label{Table 1.4}
+\end{wraptable}
+}
+\end{parcolumns}	
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+	\colchunk{
+		This syntax tells Python \textquotesingle\textquotesingle {}I\textquotesingle m going to call the numpy library np.{} We recommend %%\“{}I\’{}
+		that you use this syntax for the NumPy unless there is some compelling reason to
+		do otherwise. It is so common to do this, that in this manual we will usually omit
+		writing the code
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		import numpy as np
+\end{lstlisting}
+	at the beginning of each example and just assume that you \textquotesingle ll include it whenever
+	you see functions with the \textquotesingle\textquotesingle {}np.\textquotesingle\textquotesingle{} prefix.\\
+	\indent Virtually any mathematical function that you will need to perform a scientific
+	calculation can be found in the library NumPy or in another common library
+	called SciPy (say \textquotesingle\textquotesingle sigh pie\textquotesingle\textquotesingle , not \textquotesingle\textquotesingle skippy\textquotesingle\textquotesingle). These two libraries are designed to work
+	together. Here is an example showing how to use the $J_0$ Bessel function:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	import numpy as np
+	import scipy.special as sps
+	a = 5.5
+	b = 6.2
+	c = np.pi/2
+	d = a * np.sin(b * c)
+	e = a * sps.j0(3.5 * np.pi/4)
+\end{lstlisting}
+	If numpy doesn\textquotesingle t have a mathematical function you need, then scipy.special
+	probably has it. \hyperref[Table 1.5]{Table 1.5} provides a small sampling of its functions. See \textcolor{blue}{SciPy\textquotesingle s
+	online help}for a more extensive listing.
+\section{\textbf{Numpy Arrays}}
+	In scientific computing we often do calculations involving large data sets. Say you
+	have a large set of numbers, xi and you want to calculate the summation
+	\begin{equation}\label{1.1}
+	\displaystyle\sum_{i=1}^{N}(x_i-5)^{3}.
+	\end{equation}
+	You could use loops to calculate each term in this sum one$-$by$-$one, and then add
+	them up to compute the final sum. However, the Numpy library provides a much
+	slicker method for making these kinds of calculation using something called a
+	NumPy array. For example, if x were a Numpy array containing all of the $x_i$ values,
+	the code to evaluate the sum in \hyperref[1.1]{Eq. (2.1)} is simply:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	s=sum((x-5)**3)
+\end{lstlisting}
+	This code subtracts 5 from each element in the array, cubes the result for each
+	element, and then sums the resulting elements all without a loop in sight. Let\textquotesingle s
+	explore the details of how to do calculation using Numpy arrays.
+}
+\colchunk{
+\begin{wraptable}{l}{4.5cm}
+	\begin{tabular}{  m{1.5cm} m{2.5cm} }
+airy(z)    & Airy function\\ 
+j0(z)  & 0th order Bessel
+function of 1st kind \\  
+ j1(z)  & 1st order Bessel
+function of 1st kind\\
+ jv(v,z)   & Bessel function of
+1st kind, order v \\ 
+yv(v,z)  &  Bessel function of
+2nd kind, order v \\  
+ a + b  & Concatenate strings
+a and b.\\
+ kv(n,z)   & Modified Bessel
+function of 2nd
+kind of integer
+order n\\ 
+iv(v,z)   &  Modified Bessel
+function of 1st kind
+of real order v \\  
+ hankel1(v,z)  & Hankel function of
+1st kind of real order v\\
+hankel2(v,z) &  Hankel function of
+2nd kind of real order v
+\end{tabular}
+\caption{A very small sampling
+of functions belonging to the
+scipy.special library.}\label {Table 1.5}
+\end{wraptable}
+}
+\end{parcolumns}
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+	\colchunk{
+	\subsection*{\textbf{Array Creation}}
+	Our first task is to create a NumPy array. Here you have several options. You can
+	enter small arrays by providing a list of numbers to the NumPy array function,
+	like this:
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		a = np.array([1,2,3,4,5,6,7,8,9,10])
+	\end{lstlisting}
+	Another common method for creating arrays is to use the function arange (think
+	the two words \textquotesingle\textquotesingle a range\textquotesingle\textquotesingle not the one word \textquotesingle\textquotesingle arrange\textquotesingle\textquotesingle so you don\textquotesingle t misspell this
+	function). This function creates an array of evenly spaced values from a starting
+	value, and ending value, and a step size, like this:
+		\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+			b = np.arange(0,10,.1)
+		\end{lstlisting}
+ 	This code creates the following array:
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		[0,.1,.2,.3,.4,.5,.6.... 
+		9.5,9.6,9.7,9.8,9.9]
+	\end{lstlisting}
+	Notice that this array does not include the value at the end of the range (i.e. 10).
+	Also, for those of you coming from a Matlab background, notice that the step size
+	(0.1 in this case) comes third, not between the two limits as is done in Matlab.\\
+	\indent The linspace function creates an array by specifying the starting value, ending value, and the number of elements that the array should contain. For example:
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		x = np.linspace(0,10,10)
+	\end{lstlisting}
+		\textbf{This will create an array that looks like this:}
+		$$[0,1.111,2.222,3.333,4.444,5.555,6.666,7.777,8.888,10]$$
+		When you use the linspace function, you aren\textquotesingle t specifying a step size. You can
+		ask the linspace command to tell you what step size results from the array that
+		it created by adding retstep=True as an argument to the function, like this:
+	\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+		x,dx = np.linspace(0,10,10,retstep = True)
+	\end{lstlisting}
+	Note that since linspace is now returning two values (the array and the step
+	size), we need two variables on the left hand side of the equals sign. \hyperref[Table 1.6]{Table 1.6}
+	gives several other options for creating NumPy arrays.\\
+\subsection*{\textbf{Math with Arrays}}
+	Once a NumPy array object is created, a whole host of mathematical operations
+	become available$—$you can square the array and Python knows that you want to
+	square each element, you can add two arrays together and Python knows that you
+	want to add the individual elements of the arrays, etc. Here are some examples:
+}
+\colchunk{
+\begin{wraptable}{l}{4.5cm}
+	\begin{tabular}{  m{2cm} m{2.5cm} }
+logspace  & Returns numbers
+evenly spaced on a
+log scale. Same arguments as linspace\\ 
+empty  & Returns an empty array with the specified shape\\  
+zeros  & Returns an array of
+zeros with the specified shape\\
+ ones    & Returns an array of
+ones with the specified shape. \\ 
+zeros \_{} like  &   Returns an array of
+zeros with the same
+shape as the provided array \\  
+fromfile  & Read in a file and create an array from the
+data.\\
+ copy   & Make a copy of another array.
+\end{tabular}
+\caption{A sampling of arraybuilding functions in numpy. The
+arguments to the functions has
+been omitted to maintain brevity.
+See online documentation for further details.
+}\label {Table 1.6}
+\end{wraptable}
+}
+\end{parcolumns}
+\newpage
+\begin{flushleft}
+\begin{minipage}[t]{12cm}
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	x = np.array([2,3,5.2,2,6.7,3]) # Create the array x
+	y = np.array([4,8,9.8,2.1,8.2,4.5]) # Create the array y
+	c = x**2 # Square the elements of x
+	d = x + 3 # Add 3 to every element of x
+	e = x * 5 # Multipy every element of x by 5
+	f = x + y # Add the elements of x to the elements y
+	g = x * y # Multiply the elements of x by the elements of y
+\end{lstlisting}
+	In most respects, math with Numpy arrays behaves like the \textquotesingle\textquotesingle dotted\textquotesingle\textquotesingle operators
+	with Matlab matrices, where the operations are performed on corresponding
+	elements. However, NumPy arrays are objects, so assigning one array to another,
+	like this
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	x = np.array([2,3,5.2,2,6.7,3])
+	y = x
+\end{lstlisting}
+	does not copy the values of x into a new variable y. Instead, it creates a new
+	pointer to the existing object x, so that x and y now refer to the same object. Try
+	changing a value of y and note that it also changes the value in x. To make a copy
+	of an array, do this
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	x = np.array([2,3,5.2,2,6.7,3])
+	y = np.copy(x)
+\end{lstlisting}
+	Switch the values in x and y and notice that they are now independent variables.\\
+	\indent This array copy business is important and often misunderstand. This results
+	in frustrated students when they try using the wrong syntax. You should probably go back and re-read the last paragraph and make sure you understand the
+	distinctions to save yourself some frustration.
+\subsection*{\textbf{Functions of Arrays}}
+	Mathematical functions like sin(x) and sinh(x) from the NumPy and SciPy libraries can accept arrays as their arguments and the output will be an array of
+	function values. However, functions from other libraries, such as the math library,
+	are not designed to work on arrays. Here is an example of this issue:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	import numpy as np
+	import math
+	x = np.array([2,3,5.2,2,6.7])
+	c = np.sin(x) # Works just fine, returning array of numbers.
+	d = math.sin(x) # Returns an error.
+\end{lstlisting}
+	The math library is much less capable than numpy, so we don\textquotesingle t recommend using
+	it for scientific coding. We just introduced it here to emphasize that NumPy arrays
+	usually need to be used with NumPy functions.
+\end{minipage}
+\end{flushleft}
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+	\colchunk{
+\begin{flushleft}
+\subsection*{\textbf{Accessing Elements of Numpy Arrays}}
+	You can access individual array elements in a NumPy array using square brackets
+	to index the elements like this
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	a = np.array([1,2,3,4,5,6,7,8,9,10])
+	x = a[1]
+\end{lstlisting}
+	Look carefully at the value of x after running this code, and convince yourself that
+	Python array indexes are zero-based. That is, the first element has index 0, the
+	second element has index 1, and so forth.\\
+	\indent You can extract a contiguous range of values using the colon command in
+	square brackets like this
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	b = a[1:4]
+	c = a[0:6:2]
+\end{lstlisting}
+	Note that there can be three numbers inside the brackets, each separated by the
+	: symbol, like this [x:y:z]. The extracted elements start at element x, end just
+	before element y (i.e. the element at y is not in the range), and steps in increments
+	of z. Note that the last number is optional, and if omitting a default value of 1 is
+	used for the step size. Python uses zero-based indexing, so a[1:4] starts at the
+	second element, not the first.\\
+	\indent You can also use negative indexes in the colon command to count from the
+	end of the array toward the beginning:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	b = a[-1]
+	c = a[1:-2]
+\end{lstlisting}
+	The index $-1$ refers to the last element, index $-2$ refers to the second to last
+	element, etc. You can also omit one of the endpoint arguments to go all the way
+	to the beginning or end of the array, like this:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	b = a[1:]
+	c = a[:3]
+\end{lstlisting}
+\section{\textbf{ Making x-y Plots}}
+	Plots of x vs. y can be made with a library called matplotlib. This library creates
+	plots using a syntax essentially the same as the plotting functions in Matlab using
+	NumPy arrays as data inputs. Here is an example of the basic syntax:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	import matplotlib.pyplot as plt
+	import numpy as np
+	import matplotlib.pyplot as plt
+	import numpy as np
+	x = np.arange(0,10,0.01)
+	y = x**2
+	plt.figure(1)
+	plt.plot(x,y)
+\end{lstlisting}
+\end{flushleft}
+}
+\colchunk{
+ 	\begin{wraptable}{l}{4.5cm}
+	\begin{tabular}{  m{4cm}  }
+  Spyder uses IPython for its
+console which automatically shows plots. For other
+consoles, you\textquotesingle ll need to add
+the command plt.show()
+after making a plot to display it on the screen.
+
+\end{tabular}
+\end{wraptable}
+}
+\end{parcolumns}
+\newpage
+\begin{flushleft}
+\begin{minipage}[t]{12cm}
+	If you want to see the actual data points being plotted, you can add the string
+	\textcolor{green}{\textquotesingle ro\textquotesingle} inside of the plot command
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	plt.plot(x,y,'ro')
+\end{lstlisting}
+	The \textcolor{green}{\textquotesingle r\textquotesingle} means make the data points red and the \textcolor{green}{\textquotesingle o\textquotesingle} means plot circle markers.
+	All of the usual plot commands from Matlab work about the way you\textquotesingle d expect.
+	For instance, here is an example of overlaying two graphs
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+	import matplotlib.pyplot as plt
+	import numpy as np
+	
+	x = np.linspace(0,2.*np.pi,100)
+	y1 = np.sin(2*x)
+	y2 = np.cos(3*x)
+	
+	plt.figure(1)
+	plt.plot(x,y1,'r.',x,y2,'b')
+	plt.legend(['Sine of x','Cosine of x'])
+	plt.xlabel('x')
+	plt.title('Two Trig Functions')
+	
+	plt.figure(2)
+	plt.plot(y1,y2)
+	plt.title('Something Fancy')
+\end{lstlisting}
+\section{\textbf{Customizing the IDE}}
+	The Spyder development environment can be customized to suit your preferences.
+	We recommend at least the following changes, and you can also look around at
+	some of the other options while making these changes.
+\end{minipage}
+\begin{enumerate}
+\begin{minipage}[t]{12cm}
+	\item{ By default plots are displayed inline in the console. To have them pop
+	out in their own window go to the Tools menu in Spyder and select Preferences $\rightarrow$ IPython Console  $\rightarrow$ Graphics Tab and set the Graphics backend
+	to \textquotesingle\textquotesingle Automatic.\textquotesingle\textquotesingle The popup windows will allow you to zoom in on different
+	parts of the graph. The separate window will also allow us to make simple
+	animations by repeatedly redrawing plots in the same window. If you don\textquotesingle t
+	make this change, your animations will scroll by as separate plots in the
+	console window rather than displaying on the same axis.}
+	\item{By default, all the variables that you define by direct interaction with the
+	console and during the execution of your code remain in memory and available for subsequent use, both in the console and subsequent executions
+	of programs. Sometimes this can be convenient, but it can also cause debugging problems. For example, if you define a variable using the console
+	and then write a program that depends on that variable, then the mode
+	of execution of your program depends on what you\textquotesingle ve manually entered in the console. When learning to program, we recommend that you have
+	Spyder clear all variables before executing a program. To do this go to the
+	Tools menu in Spyder and select Preferences $\rightarrow$ Run and check the \textquotesingle\textquotesingle Remove
+	all variables before execution\textquotesingle\textquotesingle option.}
+\end{minipage}
+\end{enumerate}
+\end{flushleft}
+\end{document}

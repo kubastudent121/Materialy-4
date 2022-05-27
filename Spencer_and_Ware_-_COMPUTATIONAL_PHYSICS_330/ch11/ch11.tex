@@ -1,0 +1,178 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{The Pendulum with a High Frequency Driving Force}
+\begin{flushleft}
+\begin{minipage}[t]{12cm}
+	Consider\textsuperscript{1} an un$-$driven equation of motion of the form
+\begin{equation}\label{11.1}
+	\ddot{x}=-\dfrac{\partial V}{\partial x}.
+\end{equation}
+	For instance, a harmonic oscillator has $V(x) = kx^{2}/2m$
+	and pendulum has $V (x) = - (g/L)cosx$. Let the characteristic time over which this system changes appreciably be the period T , e.g.$T=2\pi /\sqrt{g/L}$
+	for the pendulum. We now drive this
+	system with a very high frequency force that depends on both the particle position
+	x and time t so that the equation of motion becomes
+\begin{equation}\label{11.2}
+	\ddot{x}=-\dfrac{\partial V}{\partial x}+A(x)sin\omega t
+\end{equation}
+	with
+\begin{equation}\label{11.3}
+	\omega >>2\pi /T
+\end{equation}
+	defining what we mean by high frequency. If we use our intuition (perhaps
+	thinking about what it feels like to drive at high speed over a back$-$country dirt
+	road that has developed wash boards) we might guess that the motion described
+	by this differential equation would consist of some sort of slowly varying motion
+	on the time scale T plus a high frequency low amplitude vibration at frequency $\omega$.
+We make this guess precise by writing
+\begin{equation}\label{11.4}
+	x(t)=X(t)+\upxi (t),
+\end{equation}
+	where X(t) describes the slow motion (think about the car winding its way around
+	curves and over hills) and $\upxi (t)$ describes the small amplitude high frequency oscillations (think about stuff in the glove compartment rattling, your teeth chattering,
+	etc.). An example of this kind of motion is shown in \hyperref[Figure 11.1]{Figure 11.1}. The smooth curve is
+	X(t) while the bumpy curve is $x(t) = X(t)+\upxi (t)$. The function $\upxi (t)$ is the difference
+	between the two curves.
+\section{Perturbation Theory}
+	Because $\upxi (t)$ is caused by the sinusoidal driving force, we will see that its time
+	average is zero, and the wide separation of time scales allows us to assume that
+	(t) changes only slightly during one period of the high frequency motion. Substituting Eq. (\hyperref[11.4]{11.4}) into Eq. (\hyperref[11.2]{11.2}) and expanding in small $\upxi$ through first order
+	gives
+\begin{equation}\label{11.5}
+	\ddot{X}+\ddot{\upxi}=-\dfrac{\partial V}{\partial x}|_{x=X} -\upxi\dfrac{\partial^{2}V}{\partial x^{2}}|_{x=X}+A(X)sin\omega t + \upxi\dfrac{\partial A}{\partial x}|_{x=X}sin\omega t
+\end{equation}
+	We first attack this equation by looking at the high frequency terms. The term
+	$Asin\omega t$ is a big term, as is $\ddot{\upxi}$ because of its rapid variation in time $\ddot{\upxi}\approx -\omega^{2}\upxi with \omega large)$ All of the other high frequency terms are small compared to these two
+	because $\upxi$ is small, so we have (approximately)
+\begin{equation}\label{11.6}
+\ddot{\upxi}=A(X)sin\omega t
+\end{equation}
+	with X approximately constant because it varies so slowly. A simple integration
+	yields the rapidly varying position and velocity
+\end{minipage}
+\end{flushleft}
+\footnotetext{\textsuperscript{1}This analysis is borrowed from Mechanics by Landau and Lifshitz: L. D. Landau and E. M.
+Lifshitz Mechanics (Pergamon Press, New York, 1976), p. 93$-$95.
+}
+\newpage
+\begin{flushright}
+\begin{minipage}[t]{12cm}
+\begin{equation}\label{11.7}
+	\upxi (t)=-\dfrac{A(X)}{\omega^{2}}sin\omega t~~;~~\ddot{\upxi}(t)=-\dfrac{A(X)}{\omega}cos\omega t
+\end{equation}
+	We now substitute this result into Eq. (\hyperref[11.5]{11.5}) and time average every term in
+	the equation over one period of the high frequency motion. Terms that contain
+	single powers of $\upxi$, $cos\omega t$, or sinωt average to zero while in the last term, which
+	contains $sin^{2} \omega t$, we may replace $sin^{2} \omega t$ by its time average of 1/2 to obtain
+\begin{equation}\label{11.8}
+\ddot{X}=-V\textquotesingle (X)-\dfrac{A(X)}{2\omega ^{2}}\dfrac{dA}{dX}
+\end{equation}
+	As you can see, the low frequency motion of the oscillator is altered by the presence of this rapidly oscillating force, provided that the force depends on X. This
+	means that a simple high$-$frequency external force of the form $Asin\omega t$ with A
+	constant has no effect on the slow motion.
+	We are not quite finished because we haven\textquotesingle t discussed the initial conditions.
+	Suppose that we have initial conditions
+$$
+	x(0)=x_0~~;~~\dot{x}(0)=v_0
+$$
+	Using Eq. (\hyperref[11.4]{11.4}) we have
+$$
+	X(0)+\upxi (0) = x_0 ~~; ~~\dot{X}(0)+ \dot{\upxi}(0) = v_0
+$$
+	which can be combined with Eq. (\hyperref[11.7]{11.7}) at $t = 0$ to obtain the proper initial conditions for the slow$-$motion variable X:
+\begin{equation}\label{11.9}
+	X(0)=x_0~~;~~\dot{X}(0)=v_0+A(x_0)/\omega
+\end{equation}
+	With this choice of initial conditions a combined plot of x(t) and X(t) shows that
+	x(t) wiggles and slowly varies, while X(t) tracks right with it, but with all of the
+	wiggles smoothed out.
+	\section{Driven Pendulum}
+	An interesting example of this kind of system is a pendulum whose support point
+	vibrates rapidly up and down like this:
+\begin{equation}\label{11.10}
+	y_{support}=bsin\omega t
+\end{equation}
+	A simple way to find the new equation of motion of the pendulum is to use Einstein\textquotesingle s principle of equivalence between acceleration and gravity: If the support
+	point is accelerating upward with acceleration $a_{support}$, then the pendulum will
+	experience a downward gravitational force$ −ma_{support}$. Hence we may write for
+	the effective acceleration of gravity acting on the pendulum $a_{support} = \ddot{y}_{support} =
+	−\omega ^{2}bsin\omega t$ so that the total acceleration, including ordinary gravity is
+\begin{equation}\label{11.11}
+	g_{eff} = g − a_{support} = g − \ddot{y}_{support} = g +b\omega^{2} sin\omega t 
+\end{equation}
+	which then leads to the equation of motion
+\begin{equation}\label{11.12}
+	\ddot{\theta}=-{\omega_0}^{2}sin\theta - \dfrac{b\omega ^{2}}{L}sin\theta sine \omega t
+\end{equation}
+	where ${\omega _0}^{2} = g /L$. This equation of motion matches Eq. (\hyperref[11.2]{11.2}) if we write
+\begin{equation}\label{11.13}
+	A(\theta)=-\dfrac{b\omega ^{2}}{L}sin\theta
+\end{equation}
+	which then leads to the following slow time$-$averaged equation of motion [see
+	Eq. (\hyperref[11.8]{11.8})]:
+\begin{equation}\label{11.14}
+	\ddot{\Uptheta}=-{\omega _0}^{2}sin\Uptheta-\dfrac{b^{2} \omega ^{2}}{2L^{2}}sin\Uptheta cos\Uptheta
+\end{equation}
+\end{minipage}
+\end{flushright}
+\newpage 
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk{
+\subsection*{\small{P11.1}}\label{P11.1}
+\begin{enumerate}[label=\alph*]
+	\item  Use Matlab\textquotesingle s ode45 to solve for the motion of a rapidly driven pendulum by solving both Eq. (\hyperref[11.12]{11.12}) and Eq. (\hyperref[11.14]{11.14}) with $\omega _0 = 1, ~L = 1,
+	b = .02, and \omega = 30$ with initial conditions $\theta (0) = 1, ~\dot{\theta}(0) = 0$ and run
+	for a total time of 30 seconds. Overlay the plots of $\theta (t)$ from both equations to see that the averaged solution approximates the un$-$averaged
+	solution.
+	Now run it again with initial conditions$ \theta (0) = 3.1,~ \dot{\theta}(0) = 0$ and check
+	the agreement again.
+	Note: The averaged solution won\textquotesingle t go through the middle of the wiggles of the full solution unless you adjust the averaged initial conditions as shown in Eq
+	When you do it right your plot should
+	look like \hyperref[Figure 11.1]{Figure 11.1}.
+	\item  Now redo part (a) with everything the same except use $b = .05$ this time.
+	You should be surprised, astounded, and amazed at what happens
+	with $\theta (0) = 3.1$. This case is a nearly straight up pendulum, which
+	should fall over, but as you can clearly see, the pendulum is now stable
+	in the straight$-$up position. This is not a mistake, as you can discover
+	by examining the electric saber$-$saw demonstration at the front of the
+	room.
+	\item Analyze this situation more carefully by finding the effective potential
+	that produces the right$-$hand side of the slow equation of motion,
+	Eq. (\hyperref[11.14]{11.14}), i.e., find $V (\Uptheta)$ such that
+\begin{equation}\label{11.15}
+	-\partial V/\partial \Uptheta = -{\omega _0}^{2}sin\Uptheta -\dfrac{b^{2}\omega ^{2}}{2L^{2}}sin\Uptheta cos\Uptheta
+\end{equation}
+	(integrate both sides of this equation to obtain $V (\theta )$). Then plot this
+	potential from $\Uptheta = 0 to \Uptheta = 2\pi $ for various values of b in the range
+	$b = 0~ to~ b = .1$ and notice what happens at $\Uptheta = \pi$ as b increases. Then
+	use calculus to find the critical value of b at which the straight$-$up
+	pendulum first becomes stable and use your code from part (b) to
+	verify that this threshold value is correct.
+\end{enumerate}
+	These low frequency effective forces that arise from high$-$frequency non$-$linear
+	effects are called \textit{ponderomotive forces} and they show up all the time in physical
+	problems. This problem is just a small taste of a very large field.
+}
+\colchunk{
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\begin{wrapfigure}{r}{9cm}
+\captionsetup{singlelinecheck=off, margin={0cm, 2cm}, justification=raggedright, format=hang}
+\caption{}
+\label {Figure 11.1}
+\includegraphics[width=4cm]{gghd}
+\end{wrapfigure} 
+}
+\end{parcolumns}
+\end{document}

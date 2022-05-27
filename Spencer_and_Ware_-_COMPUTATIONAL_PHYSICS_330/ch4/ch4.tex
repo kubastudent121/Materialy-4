@@ -1,0 +1,181 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\vfill
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+\colchunk{
+\chapter{Calculus and a Bouncing Ball}
+\begin{flushleft}
+For the past couple of labs we\textquotesingle ve focused on ways to visualize the solutions to
+differential equations using phase$-$space plots and qualitative analysis. In this lab
+we\textquotesingle ll begin to learn how to solve differential equations numerically. To do this, we
+represent functions of space and time using discrete grids rather than continuous
+variables. Then we approximate derivatives as finite differences on this discrete
+grid rather than the infinitesimally small differences in analytic calculus. We
+begin by exploring how to do calculus on grids. Then we\textquotesingle ll use these ideas to
+develop a crude technique for numerically solving the differential equations for a
+bouncing ball.
+\section{Calculus on a Discrete Grid}
+\subsection*{\small{P4.1}}\label{P4.1}
+ Read and work through \textit{Introduction to Matlab}, Chapter 8. Type and execute
+all of the material written in this kind of font. Then complete the
+following exercises.
+\end{flushleft}
+\begin{enumerate}[label=\alph*]
+\item Use the simple mid$-$point rule to numerically do the integral
+\begin{equation}\label{4.1}
+\int_{0}^{2} x^2e^{-x}cosx \,dx
+\end{equation}
+Experiment with different values of N until you are confident that you
+have the answer correct to 6 decimal places. Then verify that you did
+it right by doing the same integral using Matlab\textquotesingle s integral command
+with an anonymous function.
+\item Consider the function $f(x)=e^{x}$.The derivative of this function is obviously $f'(x)=e^{x}$, but imagine you didn\textquotesingle know that, and numerically evaluate $f'(x)~at~x=1$ using both the forward and centered difference
+approximation to the first derivative with a step size h = 0.5. Then
+compare the approximations with the analytic answer $(i.e.f'(1)=e).$ When you are sure you have the numerical derivatives coded correctly,
+switch h to be an array with values
+$$[\dfrac{1}{2},\dfrac{1}{4},\dfrac{1}{8},...,\dfrac{1}{2^{65}}]$$
+Then write a for loop that calculates the error of the two derivative formulas as 
+\begin{lstlisting}[language=Matlab][numbers=none]
+err=abs(fp/exp(1)-1)
+\end{lstlisting}
+(where fp is the numerical derivative) for each value of h, and stores the error in another array that
+is the same size as h. Finally, make overlaid loglog plots of the two
+errors vs. h. Show that the centered difference formula works better,
+but that both formulas are bad for very small values of h.
+Explain why very small values of h make the approximate derivative
+be wrong, giving zero instead of a good approximation to f\textquotesingle .The
+section below on roundoff will be helpful.
+\end{enumerate}
+}
+\colchunk{}
+\end{parcolumns}
+\begin{flushright}
+\begin{minipage}[t]{10cm}
+\section{Roundoff}
+The effect illustrated in exercise 4.1(b) is called roundoff and it rears its ugly head
+every time you subtract two numbers on a computer. To understand roundoff, consider the following two 15-digit numbers: $a = 1.2345678912345$ and
+$b = 1.2345678918977$. These are impressively accurate numbers, but their difference is not so impressive: $b−a = .0000000006632$. Where did all of the significant
+digits go; we started with 15 and now we only have 4? The problem is that the
+numbers were so close together that subtraction made most of the significant
+figures go away. When you work with numerical data on a computer you only
+have a finite number of significant digits (15 in Matlab), so you have to be careful
+when you subtract. And because subtraction is the key idea in differentiating, we
+have to be careful about how we choose our step size h. As you can see in this
+exercise, making it very small makes things worse, not better.
+\section{Numerical Solutions to Differential Equations}
+Now that we understand the basics of taking derivatives on a grid, let\textquotesingle s look at how
+to numerically solve differential equations. Consider the motion of a projectile
+near the surface of the earth with no air resistance. The differential equations
+that describe the projectile are
+\begin{equation}\label{4.2}
+\dfrac{d_x}{d_t}=v_x~~~~\dfrac{d_y}{d_t}=v_y\\
+\dfrac{dv_x}{d_t}=0~~~~\dfrac{dv_y}{d_t}=-g
+\end{equation}
+along with some initial conditions, x(0), y(0), $v_x (0)$, and $v_y (0)$. This set of equations is easily solved analytically, but imagine that we did\textquotesingle t have an analytic
+solution. How could we numerically model the motion of the projectile?
+The basic idea behind a numerical solution is to think of your independent
+variable (time in this case) as being a discrete grid rather than a continuous
+quantity. It is easiest to represent time with an evenly spaced grid $[t_0,t_1,t_2,...]$
+with $t_0 = 0, t_1 = \tau , t_2 = 2\tau ,$ etc. Then we label the dependent variables (space in
+this case) using the same indexing as the time grid, like this: 
+$$
+x0 \equiv x(0), x1 \equiv x(\tau ),
+x2 \equiv x(2\tau ),
+$$
+etc. With this notation, we can write the equations in (\hyperref[4.2]{ Eq. 4.2}) using the
+\end{minipage}
+\end{flushright}
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+\colchunk{
+(inaccurate) forward difference approximation of the derivative that you learned
+about in the reading:
+\begin{equation}\label{4.3}
+\dfrac{x_{n+1} -x_n}{\tau }=v_{x,n}~~~~\dfrac{y_{n+1} -y_n}{\tau }=v_{y,n}~~~~
+\dfrac{v_{x,n+1} -v_{x,n}}{\tau }=0~~~~\dfrac{v_{y,n+1} -v_{y,n}}{\tau }=-g
+\end{equation}
+Notice that the left sides of these equations are centered on the time $t_n+1/2$, but
+the right sides are centered at time $t_n$. This makes this approach inaccurate, but
+if we make $\tau$ small enough it can work well enough to see the principles involved.
+By solving the equations in (\hyperref[4.3]{ Eq. 4.3}) we can obtain a simple algorithm for stepping
+our solution forward in time:
+\begin{equation}\label{4.4}
+x_{n+1}=x_n+v_{x,n^\tau}~~~~y_{n+1}=y_n+v_{y,n^\tau}~~~~
+v_{x,n+1}=v_{x,n}~~~~v_{y,n+1}=v_{y,n}-g \tau
+\end{equation}\\
+This method of approximating solutions is called Euler\textquotesingle s method. In general, it\textquotesingle s
+not very good, especially over many time steps. However, it provides a foundation
+for learning other better methods.
+\subsection*{\small{P4.2}}\label{P4.2}
+ Make a program in Matlab to model the motion of a ball bouncing on the
+floor using Euler\textquotesingle s method. In your script, define the initial position of the
+ball with $x=0 ~and~ y=1$, and the initial velocity with $v_x=1~ and~ v_y=0$. Then
+write a while loop to step the position and velocity forward in time using
+ \hyperref[4.4]{ Eq. 4.4}. Have your while loop exit when $x > 10$. Use new variable names
+for the quantities at time level $n +1$, like this:
+\begin{lstlisting}[language=Matlab][numbers=none]
+xnew = x + vx*tau;
+vynew= vy - g*tau;
+etc.
+\end{lstlisting}
+Then when you have advanced all four quantities, update the current values
+to get ready for the next step, like this:
+\begin{lstlisting}[language=Matlab][numbers=none]
+x=xnew;
+y=ynew;
+etc.
+\end{lstlisting}
+\begin{enumerate}[label=\alph*]
+\item To simulate bouncing, put an if statement in your loop that checks if
+y is less than zero. When it is, make $v_y$ positive like this
+\begin{lstlisting}[language=Matlab][numbers=none]
+vy=abs(vy)
+\end{lstlisting}
+Make a movie by plotting the position of the ball as a dot each time
+the loop iterates, like this:
+\begin{lstlisting}[language=Matlab][numbers=none]
+plot(x,y,'.')
+axis([0 10 0 1.5])
+pause(0.001)
+\end{lstlisting}
+\item Our bouncing condition in part (a) is lousy. Make it better by adding
+some more logic that does the following:
+(i) Test to see if y will go less than zero on this time step, but don\textquotesingle t
+actually change y yet.
+(ii) If y won\textquotesingle t go less than zero this step, just do a regular Euler step.
+(iii) If it will go negative this time step, determine a smaller time step
+$\tau_1$ such that an Euler step will take the ball to $y = 0$. Then take an
+Euler step with $\tau_1$. After taking this small step, make the y$-$velocity
+positive as before
+\begin{lstlisting}[language=Matlab][numbers=none]
+vy=abs(vy)
+\end{lstlisting}
+and then take an Euler step of $\tau_2 = \tau~-~ \tau_1$ to finish off the time interval.
+Play with different values of $\tau$ and notice that even with this improved
+bouncing condition, Eule\textquotesingle s method is always unstable (i.e. the amplitude of the bounce continues to grow). This is a limitation of Euler\textquotesingle s
+method, and we\textquotesingle ll develop better methods to overcome this shortcoming next time.
+\item  Make your model look more realistic by adding some energy loss
+during the bounce process by changing your bounce code to look like
+this
+\begin{lstlisting}[language=Matlab][numbers=none]
+vy=0.95*abs(vy)
+\end{lstlisting}
+This damping will mask the growth of Euler\textquotesingle s method for a suitably
+small $\tau$.
+\end{enumerate}
+}
+\colchunk{
+\begin{wraptable}{l}{4cm}
+	\begin{tabular}{m{4cm}}
+The name Euler does not
+rhyme with \textquotesingle\textquotesingle cooler\textquotesingle\textquotesingle; it
+rhymes with \textquotesingle\textquotesingle boiler\textquotesingle\textquotesingle . You
+will impress your fellow students and your professors
+if you give this important
+name from the history of
+mathematics its proper pronunciation
+\end{tabular}
+\end{wraptable}
+}
+\end{parcolumns}
+\end{document}

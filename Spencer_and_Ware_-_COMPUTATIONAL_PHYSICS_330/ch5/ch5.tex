@@ -1,0 +1,131 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Playing Baseball with ODEs}
+\begin{minipage}[t]{10cm}
+In the previous lab, we learned a crude method for numerically solving differential equations called Euler\textquotesingle s method. In this lab we learn how to take the
+next step in refining that rudimentary technique into a more accurate ODE solver.
+After we have a good idea how ODE solvers are built and refined, we will introduce
+you to some powerful differential equation solvers built into Matlab.\\
+\section{Numerically Solving Differential Equations}
+\subsection*{\small{P5.1}}\label{P5.1}
+Read and work through Introduction to Matlab, Sections 9.1$-$9.2. Type and
+execute all of the material written in this kind of font. Then work the
+following problems.
+\begin{enumerate}[label=\alph*]
+\item Let\textquotesingle s start simple by modeling an object dropped from rest 10 m above
+the ground. Neglect air resistance, so that the gravitational force is
+simply $F = mg$ . On a piece of paper, write down Newton\textquotesingle s second
+law for this system and then convert it to a first-order set of coupled
+equations. Write the derivatives as finite differences on a grid in time
+like we did in the last lab, and solve the resulting algebra equations
+to derive the equations for Euler\textquotesingle s method. (Don\textquotesingle t peek at the answer,
+derive Euler\textquotesingle s method again from scratch.)
+\item  Implement your equations from part (a) in a Matlab script to solve the
+differential equation. Keep track of all the values, and plot $y(t)$ until
+your object hits the ground. Overlay a plot of the analytic solution and
+compare these plots for various values of $\tau$.
+\item Modify your code from part (b) to use second-order Runge$-$Kutta.
+Evaluate how your accuracy changes as you vary $\tau$, and overlay plots
+of the Euler\textquotesingle s method solution, the Runge$-$Kutta solution, and the
+analytic solution. Compare the answer for various values of $\tau$.
+\end{enumerate}
+\subsection*{\small{P5.2}}\label{P5.2}
+Read and work through \textit{Introduction to Matlab}, Sections 9.3.
+\\
+\textbf{Important:} As you work through this material in \textit{Introduction to Matlab},
+you will learn how to use an M$-$file named $rhs.m$ to solve differential equations. As you do this problem and in later labs, please don\textquotesingle t keep using
+the name $rhs.m$ over and over. Invent a unique name, like $rhs5 \_{} 2.m$, and
+change the call to $ode45$ to correspond: $ode45(@rhs5 \_{} 2,...)$. This will
+make it possible for you to come back later and see how you did each of the
+problems.
+\end{minipage}
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+\colchunk{
+\begin{enumerate}[label=\alph*]
+\item  Use Matlab\textquotesingle s numerical differential equation solver $ode45$ to solve the
+motion of the particle dropped from rest at a height of 10 m (no air
+friction) by writing a rhs function and using Matlab\textquotesingle s $ode45$.
+\item Make another version of your code from part (a) that uses an anonymous function instead of an external m$-$file rhs function. In subsequent problems and labs, you are free to use either syntax, but when
+the functions get complicated its usually easier to use the external rhs
+function.
+\end{enumerate}
+\subsection*{\small{P5.3}}\label{P5.3}
+Use Matlab\textquotesingle s ode45 to numerically solve the following equation.
+\begin{equation}\label{5.1}
+\dfrac{dy}{dt}=ysint~~~~;~~~~y(0)=1
+\end{equation}
+Plot the numerical solutions from $t = 0$ to $t = 100$ and overlay a plot of the
+analytic solution
+$$y(t)=e^{1-cos(t)}$$
+Fiddle RelTol and get a feel for how the accuracy changes with this parameter. Note: this differential equation is only first order, so you won\textquotesingle t have
+u(1) and u(2) this time. Think carefully about how to change your code
+from \hyperref[P5.2]{P5.2} to do this first$-$order problem.
+\section{Baseball}
+In Physics 121 you did the problem of a hard$-$hit baseball, but because you did
+it without air friction you were playing baseball on the moon. Let\textquotesingle s play ball in a
+real atmosphere now. The air$-$friction drag\textsuperscript{1} on a baseball is approximately given
+by the following formula
+\begin{equation}\label{5.2}
+F_drag=-\dfrac{1}{2}C_d\rho _air\pi a^{2}|v|v
+\end{equation}
+where $C_d$ is the drag coefficient, $\rho$ air is the density of air, a is the radius of the ball,
+and v is the vector velocity of the ball. The absolute value in \hyperref[5.2]{Eq. 5.2} pretty much
+guarantees that we won\textquotesingle t find a formula for the solution of this problem, but that\textquotesingle s
+fine since we know how to numerically solve differential equations now.
+There are two forces acting on a baseball: air drag and gravity. Using Newton\textquotesingle s
+second law $m\overrightarrow{r} =\sum F$ we see that equation of motion for the ball is
+\begin{equation}\label{5.3}
+	m\ddot{r} =F_drag-mg\overrightarrow{y}
+\end{equation}
+where r is the vector position of the ball, m is the mass of the baseball, g is the
+acceleration of gravity, and we have chosen the $\overrightarrow{y}$ direction to be up. Since this is
+a vector equation, it represents a system of equations$—$one for each dimension.
+To simplify our life, let\textquotesingle s consider the motion to be just in the x$-$y plane with $\overrightarrow{x}$ as
+the horizontal direction. Using the definition of velocity, we can convert \hyperref[5.3]{Eq. 5.3}
+into the following set of four coupled first$-$order equations
+\begin{equation}\label{5.4}
+\dfrac{dx}{dt}=v_x~~~~\dfrac{dv_x}{dt}=-\dfrac{C_d	\rho _{air}\pi a^{2}v_x \sqrt{{v_x}^{2}{v_y}^{2}}}{2m}
+\dfrac{dx}{dt}=v_x~~~~\dfrac{dv_x}{dt}=-\dfrac{C_d	\rho _{air}\pi a^{2}v_x \sqrt{{v_x}^{2}{v_y}^{2}}}{2m}
+\end{equation}
+\subsection*{\small{P5.4}}\label{P5.4}
+\begin{enumerate}[label=\alph*]
+\item  Use Matlab\textquotesingle s ODE solver to solve the set of equations (\hyperref[5.4]{5.4}) for a baseball with the following parameters:
+\begin{equation}
+C_d=0.35~~a=0.037m~~g=9.8m/s^{2}~~\rho _{air}=1.2kg/m^{3}~~m=0.145kg
+\end{equation}
+Put the point of contact between bat and ball at the origin $(x(0) = 0,
+y(0) = 0)$. Write your initial conditions in terms of the initial angle $\theta$
+and velocity $v_0$ of the baseball (i.e. $v0_x = v0$ $cos\theta $, $v0_y = v_0 ~sin\theta$) so we
+can play with the angle and initial speed.
+Plot y(t) and x(t) for the initial conditions of $\theta$ = 45\textdegree
+and $v_0 = 60 m/s$.
+Then plot the trajectory y(t) vs. x(t).
+\item Once you have your plot for the trajectory in air, overlay the trajectory
+that the ball would have experienced without air drag on the same
+plot. Estimate the difference in range caused by air friction.
+\item Power hitters say they would rather play in Coors Field in Denver than
+in sea$-$level stadiums because it is so much easier to hit home runs.
+Do they know what they are talking about?To find out, repeat part (a),
+but instead of overlaying the no air friction plot, overlay the trajectory
+of a ball hit in Denver and see if the ball goes significantly farther. 
+The
+density of air in Denver is about 15\%{} lower than it is at sea level.
+\end{enumerate}
+}
+\colchunk
+{
+\begin{wrapfigure}{r}{9cm}
+\captionsetup{singlelinecheck=off, margin={4cm, 0cm}, justification=raggedright, format=hang}
+\caption{  The trajectory for a
+home run hit, including the effect of air friction. Note that the
+path is not a parabola.}
+\label {Figure 5.1}
+\includegraphics[width=4cm]{ch5zd}
+\end{wrapfigure}
+}
+\end{parcolumns}
+\footnotetext{\textsuperscript{1}For more information about the subject of air drag see R. Baierlein, Newtonian Dynamics
+(McGraw Hill, New York, 1983), p. 1-7, and G. Fowles and G. Cassiday, Analytical Mechanics
+(Saunders, Fort Worth, 1999), p. 55-65.}
+\end{document}

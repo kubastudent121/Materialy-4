@@ -1,0 +1,201 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{The Harmonic Oscillator and Resonance}
+\begin{minipage}[t]{10cm}
+The harmonic oscillator is probably the most studied system in dynamics. In
+this lab we use the numerical tools that we have developed to explore some of
+the behavior of this system\textsuperscript{1}. Before we dive into the computational details, let\textquotesingle s
+remind ourselves of the basic physics of a harmonic oscillator.
+\section{The Basic Oscillator}
+The basic oscillator equation is given by
+\begin{equation}\label{6.1}
+\dfrac{d^{2}}{dt^{2}}x(t)=-\omega ^{2}_0 x(t)
+\end{equation}
+The solutions to this equation are just sines and cosines that wiggle forever in
+time with angular frequency $\omega _0$:
+\begin{equation}\label{6.2}
+x(t)=Asin(\omega _0t)+Bcos(\omega _0t  )
+\end{equation}
+or equivalently
+\begin{equation}\label{6.3}
+x(t)=Asin(\omega_0t+\varphi) 
+\end{equation}
+\subsection*{\small{P6.1}}\label{P6.1}
+\begin{enumerate}[label=\alph*]
+\item Sketch a phase space diagram for the harmonic oscillator by hand
+on paper. Draw at least two phase$-$space curves for initial conditions
+$x(0) = 1, ~v(0)~ = 0$ and another for $x(0) = 0~ and~ v(0) = 1$.
+\item Use Matlab to make a phase$-$space plot of x(t) and v(t) for a simple
+harmonic oscillator with $\omega _0 = 2.$
+\item  Solve \hyperref[6.1]{Eq. 6.1} numerically using Matlab\textquotesingle s ODE solver with initial values $x_0 ~= ~1~ and~ v_0 ~=~ 0,~ v_0 ~=~ 1.4,~ and ~v_0~ =~ −1$ and run them from $t = 0 ~to~ ~t = 1$. Overlay the three trajectory plots on your flow plot. Identify
+each of the three initial conditions on your plot, and explain what the
+harmonic oscillator does along each trajectory.
+\end{enumerate}
+Of course, no real oscillator wiggles forever. To model a real system we need to
+add damping.
+\end{minipage}
+\footnotetext{\textsuperscript{1}You can read more about the simple harmonic oscillator in the following references: R. Baierlein,
+Newtonian Dynamics (McGraw Hill, New York, 1983), Chap. 2, and G. Fowles and G. Cassiday,
+Analytical Mechanics (Saunders, Fort Worth, 1999), Chap. 3. }
+\newpage
+\begin{flushright}
+\begin{minipage}[t]{10cm}
+\section{The Damped Oscillator}
+If we add some linear damping to the system, the harmonic oscillator equation
+becomes
+\begin{equation}\label{6.4}
+\dfrac{d^{2}}{dt^{2}}x(t)=-{\omega _0}^{2}x(t)-2\gamma  \dfrac{d}{dt}x(t)
+\end{equation}
+where the damping factor $\gamma $ describes the amount of damping$—$a large $\gamma $ means
+that there is a lot of damping. If you ask Mathematica to solve \hyperref[6.4]{Eq. 6.4}, it will tell
+you that the solution is
+\begin{equation}\label{6.5}
+x(t)=A{e}^{-t(\gamma + \sqrt{\gamma ^{2}- {\omega _ 0} ^{2}})}+Be^{-t(\gamma - \sqrt{\gamma ^{2}-{\omega _0 }^{2}})}
+\end{equation}
+Equation (\hyperref[6.5]{6.5}) looks impressive, but if it\textquotesingle s supposed to be an oscillator that damps,
+where are the sines and cosines? The problem is that we haven\textquotesingle t specified how
+big $\omega _ 0$ and $\gamma$ are yet. Let\textquotesingle s think physically for a minute.\\
+Suppose that you put a pendulum in motor oil at 50 degrees below zero. This
+is an oscillator with a big $\gamma$. If you pull the pendulum back and release it, you
+are not going to see any swinging; the pendulum will just slowly ooze back to
+the vertical position and stay there. We refer to this system as being overdamped.
+Look at \hyperref[6.5]{Eq. 6.5} and convince your lab partner that this solution is made up of
+decaying exponentials when $\gamma$ is big (specifically $\gamma > \omega _ 0$).\\
+Now imagine what would happen if we decrease the damping, say by warming
+the oil up, or using WD$-$40 instead, or maybe even just air. In this case, the
+pendulum will swing back and forth, but the amplitude will decrease over time.
+But by what miracle did the exponential functions in the original solution become
+sines and cosines? Recall Euler\textquotesingle s formula
+$$
+e^{i\theta }=cos(\theta ) + isin(\theta )
+$$
+which relates exponentials to wiggles through an imaginary argument. Note that
+when $\gamma < \omega _0$
+, the square$-$root in \hyperref[6.5]{Eq. 6.5} has a negative argument, and the square
+root is imaginary. In this situation, we can rewrite \hyperref[6.5]{Eq. 6.5} as
+\begin{equation}\label{6.6}
+x(t) = e^{-t\gamma }[Ae^{-i\omega _d t}+Be^{i\omega _ d t}]
+~~(when \gamma < \omega _ 0)
+\end{equation}
+where the frequency at which the damped oscillator \textquotesingle\textquotesingle wants\textquotesingle\textquotesingle to wiggle is given by
+\begin{equation}\label{6.7}
+\omega _ d = \omega _ 0 \sqrt{1-\gamma ^{2}/{\omega _ 0}^{2}}
+\end{equation}
+argument of this square root is positive $(\gamma > \omega _ 0 )$, then both of the fundamental solutions in \hyperref[6.5]{Eq. 6.5} are decaying exponentials and we only have damping
+(no wiggles). The transition between the two is when the argument of the square
+roots is zero, i.e., when $\gamma = \omega _ 0$
+. This special case is called critical damping.
+\end{minipage}
+\end{flushright}
+\newpage
+\begin{minipage}[t]{10cm}
+\subsection*{\small{P6.2}}\label{P6.2}
+\begin{enumerate}[label=\alph*]
+\item Use Matlab to make a phase$-$space plot for a damped harmonic oscillator with $\omega _ 0 = 2 ~and~ \gamma = 0.5.$
+\item Solve \hyperref[6.4]{Eq. 6.4} numerically using Matlab\textquotesingle s ODE solver with initial values $x_0 = 1 ~and~ v_0 = 0, v_0 = 1.4,~ and~ v_0 = −1$, and run from $t = 0$ to
+$t = 20$. Overlay the three trajectory plots on your flow plot. Identify
+each of the three initial conditions on your plot, and explain what the
+harmonic oscillator does along each trajectory.
+\item  Change the damping coefficient to $\gamma = 4$ and repeat (a) and (b). Explain how the flow plot describes the overdamped system.
+\item  An air$-$damped oscillator has damping more closely proportional to
+the square of velocity rather than proportional to velocity. In equation
+form, we write this as
+\begin{equation}\label{6.8}
+\dfrac{dx}{dt}=v~~;~~\dfrac{dv}{dt}=-{\omega _ 0}^{2}x-2\gamma v|v|
+\end{equation}
+epeat (a) and (b), but change your model to use the quadratic airdamping in \hyperref[6.8]{Eq. 6.8} with $\gamma = 0.5$ instead of linear damping. Explain
+how this picture looks different from the ones in (a) and (b), and why.
+\end{enumerate}
+\section{The Driven, Damped Oscillator and Resonance}
+If we add a sinusoidal driving\textsuperscript{2}
+force at a frequency $\omega $ to the harmonic oscillator,
+the equation of motion becomes
+\begin{equation}\label{6.9}
+\dfrac{d^{2}}{dt^{2}}x(t)=-{\omega _ 0}^{2}x(t)-2\gamma  \dfrac{d}{dt}x(t)+\dfrac{F_0}{m}cos(\omega t)
+\end{equation}
+Now we have two frequencies in play$—$the driving frequency $\omega $ and the dampedoscillator frequency $\omega _d$ given by \hyperref[6.7]{Eq. 6.7}. The typical behavior of the drivendamped harmonic oscillator starting from rest is as follows: an initial period of
+start$-$up with some beating between the two frequencies ($\omega$ and $\omega _d$ ), then the
+oscillations at $\omega _d$ damp out and the system transitions to a state of oscillation at
+the driving frequency $\omega$ .
+It is possible to solve \hyperref[6.9]{Eq. 6.9} symbolically, but let\textquotesingle s study its behavior numerically for practice.
+\subsection*{\small{P6.3}}\label{P6.3}
+Use Matlab to numerically solve \hyperref[6.9]{Eq. 6.9} and plot x(t) from $t = 0$ to $t = 300$
+with $\omega _ 0 = 1$, $F_0 = 1$, $m = 1$, $\omega = 1.1$, and $\gamma  = 0.01$. Start from rest, with
+$x(0) = 0$ and $x˙(0) = 0$. Note the initial beating between frequencies and
+verify graphically that the final oscillation frequency of $x(t)$ is $\omega$.
+\end{minipage}
+\footnotetext{\textsuperscript{2}You can read more about the simple harmonic oscillator in the following references: R. Baierlein,
+Newtonian Dynamics (McGraw Hill, New York, 1983), Chap. 2, and G. Fowles and G. Cassiday,
+Analytical Mechanics (Saunders, Fort Worth, 1999), Chap. 3. }
+\newpage
+\begin{minipage}[t]{10cm}
+\section{Resonance Curves}
+When you push someone in a swing, you find that if you drive the system at the
+right frequency, you can get large amplitude oscillations. This phenomenon is an
+example of resonance, and the frequency at which the system has the maximum
+response is called the resonance frequency $\omega _ r$
+. If you drive a system at a frequency
+far from $\omega _ r$ you only get small oscillations.
+\subsection*{\small{P6.4}}\label{P6.4}
+\begin{enumerate}[label=\alph*]
+\item Make a new script by modifying your script from  so it makes a
+plot of x(t) starting from rest and running for a long time so all the
+beating has stopped. Use $F_0 = 1$, $m = 1$, $\gamma = 0.1$ $\omega _ 0 = 1$. Drive the
+system at $\omega  = 1.1$. Then write some code that measures the amplitude
+of the steady$-$state oscillations using the colon command to select
+a few cycles of oscillation at the end of the time period and the max
+command to find the maximum value within these oscillations.
+\item  Add a for loop to your code in (a) that varies the driving frequency
+from $4\omega = 0.5$ to $\omega = 1.5$ in steps of $\Delta \omega = 0.2$. For each driving frequency,
+use your code to measure the steady$-$state oscillation amplitude A
+(i.e. the amplitude of oscillation after all the beating has died out)
+and make a plot of the steady$-$state amplitude A versus the driving
+frequency $\omega$. Note the region where this curve has a maximum value
+somewhere in the vicinity of $\omega _ d$ , but our resolution is too coarse to
+see exactly where the maximum is.
+\item  To better locate the maximum, modify your loop to look at the region
+$\omega = 0.98$ to $\omega = 1.02$ with steps of $\Delta \omega = .001$. Find the frequency where
+this curve has a maximum, and compare its location to $\omega _ d$ for this
+system. Are they the same?
+\end{enumerate}
+In this problem you should note that the resonance frequency $\omega _ r$ (i.e. the peak of
+the resonance curve) is not the same as the same as the damped frequency $\omega _ d$ .
+When damping is small, $\omega _r$ and $\omega _ d$ are close, but they are not the same.
+The plot you made in \hyperref[P6.3]{P6.3} is called a resonance curve. A resonance curve
+plots the steady state oscillation amplitude (after the beating has died away)
+vs. the driving frequency. You did this by brute force, but for the simple drivendamped equation we can find an analytic solution for the resonance curve. The
+steady$-$state oscillation has the form
+\begin{equation}\label{6.10}
+x(t) = Acos(\omega t −\varphi )
+\end{equation}
+where A is the steady state amplitude, $\omega$ is the driving frequency, and $\varphi$ is the
+phase difference between the driving force and the oscillator\textquotesingle s response. By
+substituting \hyperref[6.10]{Eq. 6.10} into \hyperref[6.9]{Eq. 6.9} and analyzing the result, we find that the
+steady$-$state amplitude A is given by
+\begin{equation}\label{6.11}
+A(\omega ) = \dfrac{F_ 0/m}{\sqrt{({\omega _ 0 -\omega ^{2}}^{2})^{2}+4\gamma ^{2}\omega ^{2}}}
+\end{equation}
+while the phase shift $\varphi$ is given by
+\begin{equation}\label{6.12}
+tan\varphi = \dfrac{2\gamma \omega }{{\omega _ 0} ^{2}-\omega ^{2}}
+\end{equation}
+\end{minipage}
+
+\newpage
+\begin{minipage}[t]{10cm}
+\subsection*{\small{P6.5}}\label{P6.5}
+\begin{enumerate}[label=\alph*]
+\item  Write a matlab script that plots \hyperref[6.11]{Eq. 6.11} for the parameters in \hyperref[P6.4]{P6.4}
+and compare the plot with your numerical results. Also plot $\varphi (\omega )$ and
+describe to your lab partner what $\varphi$ represents.
+\item Now make plots of A($\omega $) for several values of $\gamma$ and verify that a smaller
+damping coefficient $\gamma$ leads to larger and sharper resonance.
+\item Show analytically that the peak of the resonance curve A($\omega$) is not at
+the damped frequency $\omega _ d$ , but occurs at
+\begin{equation}\label{6.13}
+\omega _ r=\sqrt{{\omega _d }^{2}-{\gamma}^{2}}=\sqrt{{\omega _ 0}^{2}-2{\gamma}^{2}}
+\end{equation}
+\end{enumerate}
+HINT: Remember that to find the peak of a curve, you take its derivative and set it equal to zero.
+\end{minipage}
+\end{document}

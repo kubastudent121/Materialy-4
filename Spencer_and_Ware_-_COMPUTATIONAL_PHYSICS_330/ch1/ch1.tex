@@ -1,0 +1,95 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\begin{flushleft}
+\begin{minipage}[t]{12cm}
+\chapter{Introduction to Matlab}
+		Differential equations are the language of physics, but most of the interesting
+	problems involve differential equations that can\textquotesingle t be solved analytically. In this
+	course we \textquotesingle ll learn techniques to numerically solve differential equations with the
+	goal of studying interesting physics problems. Our first step is to learn the basics
+	of the Matlab programming language.\\
+\section{Basic Syntax}
+\subsection*{\small{P1.1}}\label{P1.1}
+ 	Read and work through \textit{Introduction to Matlab}, Chapter 1. Type and execute
+	all of the material written in this kind of font. After you have worked
+	through the chapter, use the Matlab command line to define the matrices
+\begin{lstlisting}[language=Matlab][numbers=none]
+	A=[1,2,3;4,5,6;7,8,9]
+	B=[1,4,5;9,6,3;2,3,1]
+\end{lstlisting}
+	Also define the row and column vectors
+\begin{lstlisting}[language=Matlab][numbers=none]
+	v1=[1,1,2]
+	v2=[0.40824829 ; -0.81649658 ; 0.40824829]
+\end{lstlisting}
+\begin{enumerate}[label=\alph*]
+	\item Use both * and .* to multiply A and B. Explain the difference.
+	\item Perform the operation A./B and explain the result.
+	\item Perform the operations $A*v_1$, $v_1*A$, and $A*v_2$ and explain the results.
+	\item Multiply only the center elements of A and B together
+	\item Perform the operation exp$(A+i*B)$ and explain what it means.
+	\item Extract the center column of A, and then divide each element of this
+	column by the corresponding element in $v_2$.
+\end{enumerate}
+\section{Writing Scripts}
+\subsection*{\small{P1.2}}\label{P1.2}
+	 Read and work through \textit{Introduction to Matlab}, Chapter 2. Type and execute
+	all of the material written in this kind of font. Then complete the
+	following exercises:
+\end{minipage}
+\end{flushleft}
+\newpage
+\begin{flushright}
+	\begin{minipage}[t]{12cm}
+		\begin{enumerate}[label=\alph*]
+ \item In your Freshman physics course, you learned that in the absence of
+	air resistance, a battleship\textquotesingle s projectile travels a horizontal distance
+	$$d = \dfrac{v^{2}}{g}sin(2\theta)$$
+	where v is its initial speed and $\theta$ is the initial angle above the horizontal. Write a Matlab script that asks the user to enter a value for v in m/s
+	and $\theta$ in degrees, and then calculates and prints the range formatted
+	with one decimal place, like this:\textquotesingle\textquotesingle Range: 45.2 meters\textquotesingle\textquotesingle . Remember
+	that the standard trig functions are permanently set to use radians,
+	but degree versions also exist. Use your program to find the proper
+	angle to hit a target exactly 10 km away if the initial velocity is 750 m/s.
+	A battleship\textquotesingle s guns can\textquotesingle t elevate above 45 degrees.
+\item  A planet\textquotesingle s velocity with respect to its star is $v_1 = 30000 \vec{x}~ m/s$ when it is
+	hit by an asteroid with velocity 
+	$$v2 = (−5000 \vec{x} +8000 \vec{y} +1000 \vec{z}) m/s$$
+	The planet has mass $m_1 = 6*10^{24} kg$ and the asteroid has mass $m2 =
+	1 * 10^{19} kg$. Write a script that defines the masses and velocities of
+	the planet and asteroid using the variables m1, m2, v1, and v2. Then
+	calculate and display the final velocity of the planet after the collision:
+	$$v_f = \dfrac{m_1*v_1+m_2*v_2}{m_1+m_2}$$
+	Your variables and your answer should be vectors. If it bothers you
+	that the planet\textquotesingle s velocity didn\textquotesingle t change, think about the precision you
+	are using to display it.
+\end{enumerate}
+\section{Loops, Logic, and Debugging}
+\subsection*{\small{P1.3}}\label{P1.3}
+	Read and work through \textit{Introduction to Matlab}, Chapters 3$-$4. Type and
+	execute all of the material written in this kind of font, and run the
+	code in the listings.
+\begin{enumerate}[label=\alph*]
+\item Write a script that uses a for loop to find the factors of 24 by testing
+	every number from 1 to 12 using the mod function. Once you are sure
+	your code correctly finds all of the factors of 24, use it to find all of
+	the factors of 18648. To pass this exercise off, you must have at least 4
+	comment lines in your code.
+\item Use a while loop to automate the process of finding the answer to the
+	battleship range problem in \hyperref[P1.2]{P1.2}(a). Start the elevation at zero degrees
+	and increase it in steps of 0.1 degrees until your range exceeds 5 km,
+	and then break out of the while loop.
+\item Your roommate has borrowed \${}100,000 in student loans. The loan
+	charges a 6\%{} annual interest rate, and interest charges are applied
+	each month. In other words, every month the loan charges a 0.5\%{}
+	interest fee on the remaining balance. This means that the amount
+	by which you reduce your balance each month is not the amount you
+	pay, but your payment minus the monthly interest. Your roommate
+	plans to pay your loan off by paying \${}1,000 per month. Write a program using loops and logic to calculate how long it will take to finish
+	paying off the loan. Don\textquotesingle t get fancy and derive an analytic formula for
+	compound interest payoff time. Just write a loop to track the balance
+	over time, and break out when the balance gets to zero.
+\end{enumerate}
+\end{minipage}
+\end{flushright}
+\end{document}

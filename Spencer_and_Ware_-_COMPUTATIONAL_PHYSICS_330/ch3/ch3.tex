@@ -1,0 +1,170 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\chapter{Phase Space and Matlab Functions}
+\section{Surface and Flow Plots}
+\subsection*{\small{P3.}}\label{P3.1}
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+\colchunk{
+\begin{flushleft}
+Read and work through \textit{Introduction to Matlab}, Chapter 6. Type and execute all of the material written in this kind of font and execute the
+examples. Then do the following exercises:
+\end{flushleft}
+\begin{enumerate}[label=\alph*]
+\item Write a script that makes a Matlab surface plot of the \textquotesingle\textquotesingle mountain\textquotesingle\textquotesingle
+function \hyperref[Figure 3.1]{Fig. 3.1}:
+\begin{equation}\label{3.1}
+f(x,y)=e^{-\text{|}x-siny\text{|}}(1+\dfrac{1}{5}cos(\dfrac{x}{2})(1+\dfrac{4}{3+10y^{2}})
+\end{equation}
+Plot it from -5 to 5 in x and from -6 to 6 in y and add labels for the
+x and y axes. Make sure the labels correspond to the correct axes. If
+your plot is solid black, don\textquotesingle t use such a fine grid in x and y.
+\item In a certain region of the atmosphere, the wind is blowing with velocity
+that is constant in time, but varies spatially according to
+\begin{equation}\label{3.2}
+\dfrac{dx}{dy}=v_x=0.2x^{2}+0.5y^{2}+20~~~~
+\dfrac{dy}{dt}=v_y=-0.1y^{3}+0.5x^{2}-10
+\end{equation}
+Write a script that makes a quiver plot of the wind velocity over the
+region $-10$ to 10 for x and y. Now add some stream lines beginning on
+the left edge of your plot using the streamline command as shown in
+\hyperref[Figure 3.2]{Fig. 3.2}.\\
+\end{enumerate}
+\begin{flushleft}
+The plot you created in \hyperref[P3.2]{P3.2}(b) is referred to as a flow plot. The arrows that
+you produced with the quiver command show the magnitude and the direction
+of the velocity at each point, and the streamlines show the path that a particle
+would follow in this velocity field. You can also use this type of plot to understand
+the behavior of differential equations.
+\section{Phase Space}
+\end{flushleft}
+You can often visualize the solution of a second$-$order differential equation without actually solving it using phase space\textsuperscript{1}
+techniques.In classical mechanics you will learn to call the two$-$dimensional plane defined by the variables q and $p =\dfrac{∂L}{∂q}$
+phase space (L is the Lagrangian). But for simplicity, in this lab we will use the
+position x and velocity v as the phase space variables.
+A second order differential equation can always be separated into a set of
+first-order equations by defining an intermediate variable. For instance, a onedimensional projectile with the constant acceleration is described by the differential equation
+}
+\colchunk{
+\begin{wrapfigure}{l}{9cm}
+\captionsetup{singlelinecheck=off, margin={0cm, 4cm}, justification=raggedright, format=hang}
+\caption{The \textquotesingle\textquotesingle mountain\textquotesingle\textquotesingle function.}
+\label {Figure 3.1}
+\includegraphics[width=4cm]{latexch3}
+\end{wrapfigure}\\
+}
+\end{parcolumns}
+\footnotetext{\textsuperscript{1}R. Baierlein, Newtonian Dynamics (McGraw Hill, New York, 1983), p. 51$-$54, 140$-$144, and G.
+Fowles and G. Cassiday, Analytical Mechanics (Saunders, Fort Worth, 1999), p. 93$-$98.}
+\newpage
+\begin{flushright}
+\begin{minipage}[t]{10cm}
+\begin{equation}\label{3.3}
+\dfrac{d^{2}x}{dt^{2}}=-g
+\end{equation}
+By defining an intermediate variable v, this second-order differential equation
+can be written as a system of first$-$order differential equations like this:
+\begin{equation}\label{3.4}
+\dfrac{dx}{dt}=v ~~and~~\dfrac{dv}{dt}=-g
+\end{equation}
+Notice that the position and velocity coordinates in \hyperref[3.4]{ Eq 3.4} have the same form
+as the flow velocities in \hyperref[3.2]{ Eq 3.2}, i.e. the first derivatives on the left equal expressions on the right with no derivatives. If you think of dx/dt and dv/dt in \hyperref[3.4]{ Eq 3.4}
+as flow velocities in the x-v plane, the right-hand sides of these equations tell
+you what the \textquotesingle\textquotesingle flow\textquotesingle\textquotesingle velocity is at each point in space. At any point in time t, the
+coordinate $[x(t), v(t)]$ gives the phase-space point that represents the \textquotesingle\textquotesingle state\textquotesingle\textquotesingle of
+the system. Given an initial starting point, you can then trace out a curve called a
+phase space trajectory analogous to the streamlines we plotted in the flow plot.
+Part of the power of phase space flow plots is that you don\textquotesingle t have to solve the
+differential equation to make the flow plot.\\ You just evaluate the right-hand sides
+of \hyperref[3.4]{ Eq 3.4}, for example, and draw arrows at each point in the (x, v) space that
+indicate which way the solution at that point will move if we take a small step in
+time. To draw the phase space trajectories, we just connect up the arrows over
+short time intervals (or let Matlab do it for with with streamline). In this way
+you can explore the behavior of the system for a wide range of initial conditions
+without ever actually solving the ODE for any of these conditions.
+\subsection*{\small{P3.2}}\label{P3.2}
+ Sketch a phase space diagram for the one-dimensional projectile in \hyperref[3.4]{ Eq 3.4}
+by hand on paper. Then draw some phase-space trajectories for a ball being
+thrown up with various velocities. After you have done your work by hand,
+check it by using Matlab with the quiver and streamline tools.
+\subsection*{\small{P3.3}}\label{P3.3}
+\begin{equation}\label{3.5}
+\dfrac{d^{2}x}{dt^{2}}=-x
+\end{equation}
+First sketch on trajectory by hand on a paper, then use Matlab to plot
+the phase space diagram with many trajectories using the quiver and
+streamline tools. Verbally describe the motion represented by each curve.
+\end{minipage}
+\end{flushright}
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+\colchunk{
+\begin{flushleft}
+\subsection*{\small{P3.4}}\label{P3.4}
+ Use Matlab to plot a phase space diagram for the angle of a rigid pendulum,
+given by
+\begin{equation}\label{3.6}
+\dfrac{d^{2}\theta}{dt^{2}}=-sin(\theta)
+\end{equation}
+Play with the range of the plot until you can clearly see motions that wiggle back and forth, and others that just spin around like a propeller on a
+plane. Identify curves that are clockwise spinning, curves that are counterclockwise spinning, and curves that wiggle back and forth.
+\subsection*{\small{P3.5}}\label{P3.5}
+ Use qualitative analysis to sketch the solution of the equation
+\begin{equation}
+\dfrac{d^{2}\theta}{dt^{2}}y=-y^{2}~~with~~y(0)=1~~and~~\dfrac{d}{dt}y(0)=0
+\end{equation}
+on paper like we did in the last lab. This ODE doesn\textquotesingle t have an analytic
+solution. Make a phase$-$space quiver plot and use streamline to overlay
+a phase$-$space trajectory corresponding to the correct initial conditions and
+compare this trajectory with your sketched solution and make sure they are
+consistent.
+\section{Functions in Matlab}
+To this point, we\textquotesingle ve mostly relied on Matlab\textquotesingle s built$-$in functions tied together with
+some code to perform our work. As our numerical techniques advance, we\textquotesingle ll need
+to be able to write our own functions. Pay close attention to this material, because
+it will be important throughout the remainder of the course.
+\subsection*{\small{P3.6}}\label{P3.6}
+ Read and work through \textit{Introduction to Matlab}, Chapter 7. Type and execute
+all of the material written in this kind of font. Then do the following
+exercises:
+\end{flushleft}
+\begin{enumerate}[label=\alph*]
+\item Write an m$-$file function called EulerSum.m that computes the quantity
+\begin{equation}
+S_e(N)=(\sum_{n=1}^{N}\dfrac{1}{n})-ln(N)
+\end{equation}
+You can either use a loop or the sum command to compute the sum.
+Write a separate script that loads a variable Se with $S_e (N)$ from N = 1
+to N = 1,000. Show that as N becomes large $S_e$ approaches a limit.
+This limit is called Euler\textquotesingle s constant, often represented by the Greek
+letter $\gamma$. To 15 digits, Euler\textquotesingle s constant is
+$$\gamma =0.577215664901532$$
+Add a second output to EulerSum.m that returns the error $\text{|}S_e (N)−\gamma\text{|}$.
+Use semilogy to plot this error as a function of N.
+\item A square wave can be approximated by a sum of sine waves accordingto
+\begin{equation}\label{3.7}
+f(x)=\sum_{n=1,3,5,...}^{N}a_n(x)
+\end{equation}
+where
+\begin{equation}\label{3.8}
+a_n=\dfrac{4}{n\pi}sin(\dfrac{n\pi x}{L})
+\end{equation}
+Make an anonymous function that evaluates
+$a_n(x)$ and then write a loop that evaluates
+f(x) for a given value of N. Use $L= 1$ and plot f(x) from $-5$ to 5. Notice that your function will need to accept two arguments: n and x. Use your code to explore how big
+N needs to be to get a good approximation to a square wave. If you get a nice clean
+picture of a square wave, make your x grid finer and finer until you
+see the Gibbs phenomenon spikes at the points of discontinuity that you learned about in Physics 318.
+\end{enumerate}
+}
+\colchunk{\begin{wrapfigure}{r}{9cm}
+\captionsetup{singlelinecheck=off, margin={0cm, 4cm}, justification=raggedright, format=hang}
+\caption{  The trajectory for a
+home run hit, including the effect of air friction. Note that the
+path is not a parabola.}
+\label {Figure 3.2}
+\includegraphics[width=3cm]{ch33}
+\end{wrapfigure}}
+\end{parcolumns}
+\newpage
+\end{document}

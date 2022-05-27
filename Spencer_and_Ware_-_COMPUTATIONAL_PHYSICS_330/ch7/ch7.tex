@@ -1,0 +1,230 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{The Pendulum}
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk{
+The harmonic oscillator is an incredibly useful system to understand because
+it is a reasonably good approximation to essentially every system that exhibits
+oscillations, as long as the amplitude remains small. The classic example of a
+oscillating system is a simple pendulum. In this lab we\textquotesingle ll study how the pendulum
+resembles a harmonic oscillator and also how it differs.
+\section{The Simple Pendulum}
+\begin{flushleft}
+The equation of motion of a simple pendulum is
+\end{flushleft}
+\begin{equation}\label{7.1}
+\ddot{\theta }=-{\omega _ 0}^{2}sin\theta 
+\end{equation}\\
+where $\theta$ is the angle (in radians) between the pendulum and the vertical direction
+and $\omega _0$ is the small$-$amplitude oscillation frequency. This is a nonlinear equation,
+so we often use the small angle approximation $sin\theta$ $\approx$ $\theta$ to simplify \hyperref[7.1]{Eq. 7.1} into a
+simple harmonic oscillator. But it doesn\textquotesingle t take a very large amplitude before the
+small angle approximation falls apart. In this lab, we study the large amplitude
+behavior of the pendulum, which can be quite different from the simple harmonic
+oscillator.
+\subsection*{\small{P7.1}}\label{P7.1}
+ Show that \hyperref[7.1]{Eq. 7.1} is, in fact, nonlinear by showing that if you have two of
+its solutions $\theta _ 1(t)$ and $\theta _2(t)$, then their sum $\theta _1(t)+\theta _2(t)$ \textit{is not} a solution of
+the differential equation. When this happens, we say that the differential
+equation is nonlinear. Use pencil and paper; Mathematica will just slow
+you down.
+\subsection*{\small{P7.2}}\label{P7.2}
+ Use \hyperref[7.1]{Eq. 7.1} with Matlab to make a phase space diagram with Matlab\textquotesingle s
+quiver and streamline commands. Use this diagram to describe the pendulum behavior for small oscillations, large oscillations, and motion where
+the pendulum is rotating completely around rather than oscillating back
+and forth. Identify trajectories for both clockwise and counter$-$clockwise
+rotations.
+\section{Period and Frequency of the Pendulum}
+A pendulum is an extended object that is free to rotate with moment of inertia I
+about a pivot point. The distance from the pivot point to the center of mass of the
+object is $\ell $, and the small$-$amplitude oscillation frequency is $\omega _0 = \sqrt{mg\ell /I}$. If the%
+}
+\colchunk
+{
+\begin{wrapfigure}{r}{9cm}
+\captionsetup{singlelinecheck=off, margin={0cm, 4cm}, justification=raggedright, format=hang}
+\caption{A phase space flow plot
+for a pendulum.}
+\label {Figure 7.1}
+\includegraphics[width=4cm]{ch7zd}
+\end{wrapfigure}
+}
+\end{parcolumns}
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+\colchunk{
+\begin{flushleft}
+pendulum is a simple massless stick of length $\ell$ with all of the mass at the end of
+the stick, the small$-$amplitude oscillation frequency simplifies to $\omega _ 0 =\sqrt{g/\ell }$
+We can find the large$-$amplitude oscillation frequency of the pendulum by
+using an energy method\textsuperscript{1} The kinetic energy of the pendulum is $I\dot{\theta}^{2}/2$ and the
+potential energy is $mg\ell (1−cos\theta )$ (see \hyperref[Figure 7.2]{Fig. 7.2}). The total energy of a pendulum
+can be found when the pendulum is at the maximum displacement, which we
+will denote by $\theta _0$. At this point, the center of mass is at a height of $\ell (1−cos\theta _0)$
+above the equilibrium position and the kinetic energy is zero, so the total energy
+is $mg\ell (1 − cos\theta _0)$. As the pendulum oscillates, energy shuttles back and forth
+between kinetic and potential according to
+\begin{equation}\label{7.2}
+\dfrac{1}{2}I\dot{\theta }^{2}+mg\ell (1-cos\theta ) =mg\ell (1-cos\theta _0)
+\end{equation}\\
+The first term on the left is the kinetic energy, the second term is the potential
+energy, and the right side is the total energy of the system.
+\subsection*{\small{P7.3}}\label{P7.3}
+ Using paper and pencil, separate the variables $\theta$ and t in \hyperref[7.2]{Eq. 7.2} and show
+that it can be written as
+\begin{equation}\label{7.3}
+\omega _0dt=\dfrac{d\theta }{\sqrt{2cos\theta -2cos\theta _0}}
+\end{equation}\\
+To find the period of oscillation, we integrate both sides of \hyperref[7.3]{Eq. 7.3} over a
+quarter period of the motion (from $\theta = 0$ to $\theta = \theta _0$ on the angle side and from
+$t = 0$ to $t = T /4$ on the time side), like this
+\begin{equation}\label{7.4}
+\omega _0\int_{0}^{T/4}dt=\dfrac{1}{\sqrt{2}}\int_{0}^{\theta _0} \dfrac{d\theta }{\sqrt{cos\theta -cos\theta _0}}
+\end{equation}\\
+The time integral on the left is simply $\omega _0 T /4$, but the $\theta$ integral on the right is
+difficult. After carrying out the time integral and performing some judicious
+variable substitutions and a little algebraic massaging, we can rewrite \hyperref[7.4]{Eq. 7.4} as
+\begin{equation}\label{7.5}
+T=\dfrac{4}{\omega _0}\int_{0}^{\pi /2}\dfrac{d\phi }{\sqrt{1-sin^{2}(\theta _0/2 sin^{2}\phi )} }
+\end{equation}\\
+The $\theta$ integral in \hyperref[7.5]{Eq. 7.5} is not any easier than the $\theta$ integral in \hyperref[7.4]{Eq. 7.4}, but it
+has come up in enough problems that it has been given a name: the complete
+elliptic integral of the first kind, called K(m):
+\begin{equation}\label{7.6}
+K(m)\equiv \int_{0}^{\pi /2}\dfrac{d\phi}{\sqrt{1-msin^{2}\phi}}
+\end{equation}
+\end{flushleft}
+}
+
+\colchunk
+{
+\begin{wrapfigure}{r}{9cm}
+\captionsetup{singlelinecheck=off, margin={4cm, 0cm}, justification=raggedright, format=hang}
+\caption{ A simple pendulum
+comprised of a massless stick of
+length $\ell$ with a mass m at the end.}
+\label {Figure 7.3}
+\includegraphics[width=4cm]{ch7zd2}
+\end{wrapfigure}
+\begin{wrapfigure}{r}{5.7cm}
+\captionsetup{singlelinecheck=off, margin={1.2cm, 0cm}, justification=raggedright, format=hang}
+\caption{ \small{The frequency of a pendulum depends on the amplitude
+of oscillation. The variation of frequency with amplitude is smallest
+for low$-$amplitude oscillations, so
+its easier to get good accuracy with
+long pendulum and small angle
+oscillations as in a grandfather
+clock.}}
+\label {Figure 7.2}
+\includegraphics[width=4cm]{ch7zd1}
+\end{wrapfigure}
+}
+\end{parcolumns}
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk{
+	Matlab and Mathematica know how to evaluate K(m) functions for 0 $\leq m \leq 1$ just
+	like they can evaluate sines, cosines, and Bessel functions. Thus, we can write the
+	period T of the pendulum as
+\begin{equation}\label{7.7}
+	T=\dfrac{4}{\omega _0}K(sin^{2}(\theta _0/2))
+\end{equation}
+	Now we can use the relation $\omega = 2\pi /T$ to obtain an expression for the angular
+	frequency of the pendulum as a function of amplitude $\theta _0$.
+\begin{equation}\label{7.8}
+	\omega(\theta _0)=\dfrac{\pi \omega _0}{2K(sin^{2}(\theta _0/2)}	
+\end{equation}
+	Note that the natural oscillation frequency $\omega (\theta _0)$ of the pendulum depends
+	on amplitude $\theta _0$, as shown in \hyperref[Figure 7.4]{Fig. 7.4}. This gives the pendulum some interesting
+	characteristics.
+\subsection*{\small{P7.4}}\label{P7.4}
+	Use Matlab to plot $\omega (\theta _0)$ from $\theta _0 = 0$ to $\theta _0 = \pi $ with $\omega _0 = 1$) and explain
+	physically why it looks like it does. In particular, explain why the frequency
+	goes to zero at $\theta _0 = \pi$. You\textquotesingle ll need to use the online help to see the syntax
+	for evaluating the elliptic integral function.
+\begin{flushleft}
+	Now let\textquotesingle s solve the pendulum equation numerically using Matlab.
+\end{flushleft}
+\subsection*{\small{P7.5}}\label{P7.5}
+	Use Matlab\textquotesingle s numerical differential equation solver ode45 to solve the pendulum, again with $\omega _0 = 1$ and initial conditions $\theta (0) = \theta _0$ and $\omega (0) = 0$. Plot
+	the solution $\theta (t)$ for the following values of $\theta _0$: $0.1, 0.5, 1.0, \pi /2, 0.9\pi $,and
+	0.98$\pi$ .For each case overlay a plot of a cosine function of matching amplitude and with a frequency $\omega (\theta _0)$ from \hyperref[7.8]{Eq. 7.8}. Verify that \hyperref[7.8]{Eq. 7.8}) gives
+	the correct frequency, but that for large amplitudes the pendulum motion
+	is not sinusoidal.
+\subsection*{\small{P7.6}}\label{P7.6}
+	Now let\textquotesingle s study what happens when we add driving and damping.
+\begin{enumerate}[label=\alph*]
+	\item First we\textquotesingle ll review what happens when we drive an undamped harmonic oscillator.Write a Matlab script that solves the driven oscillator equation
+\begin{equation}\label{7.9}
+	\ddot{y} + \omega ^{2}_0 y(t)=F_0sin(\omega t)
+\end{equation}\\
+	and plot the solution y(t) with $\omega _0 = \omega = 1$. Start from rest and run
+	for a long enough time that you can see the amplitude heading off to
+	infinity, even with small values of $F_0$.
+	\item  Now drive an undamped pendulum with an external torque, like this
+\begin{equation}\label{7.10}
+	\ddot{\theta }+\omega^{2} _0sin\theta = \alpha sin \omega _\tau t.
+\end{equation}\\
+	Drive the pendulum at resonance for small amplitudes, with $\omega _0 = 1$,
+$\omega _\tau = 1$, and $\alpha = 0.1$. Start at rest and run for a long enough time that
+	you can see that the pendulum amplitude doesn\textquotesingle t simply go to infinity
+	like the harmonic oscillator. Explain why not.
+\item Finally, add some linear damping, to the pendulum equation like this:
+\begin{equation}\label{7.11}
+\ddot{\theta }+\omega^{2}_0sin\theta = \alpha sin\omega _\tau t -\gamma \dot{\theta}
+\end{equation}\\
+	Use $\gamma = 0.1$ and the same conditions as in (b) and watch how the
+	motion changes. Explain the damped behavior and explore how
+	it depends on $\alpha$. Also vary the driving frequency $\omega$ in the range
+	$0.90\omega _0 \rightarrow 1.05\omega _0$ and explain why $\omega = \omega _0$ doesn\textquotesingle t give the largest
+amplitude.
+\end{enumerate}
+}
+\colchunk
+{
+\begin{wrapfigure}{r}{5cm}
+\captionsetup{singlelinecheck=off, margin={1cm, 0cm}, justification=raggedright, format=hang}
+\caption{\ref{Figure 7.4} Oscillation frequency
+as a function of the maximum
+amplitude $\theta _0$.}
+\label {Figure 7.4}
+\includegraphics[width=4cm]{ch7zd55}
+\end{wrapfigure}
+}
+\end{parcolumns}
+\footnotetext{\textsuperscript{1}G. Fowles and G. Cassiday, Analytical Mechanics (Saunders, Fort Worth, 1999), p. 318-320}
+\newpage
+\section{Differential Equations in Mathematica}
+\begin{minipage}[t]{10cm}
+	While the focus of this course is on learning numerical techniques in Matlab,
+	Mathematica also has some excellent differential equation solving abilities that
+	you should be aware of. Let\textquotesingle s take a break from Matlab and learn some of the
+	basics in Mathematica.
+\subsection*{\small{P7.7}}\label{P7.7}
+	Read the section titled \textquotesingle\textquotesingle Symbolic solutions to ordinary differential equations\textquotesingle\textquotesingle in the Mathematica tutorial Differential equations with Mathematica
+	(available on the Physics 330 course web page).
+\subsection*{\small{P7.8}}\label{P7.8}
+	 Use Mathematica to solve the following differential equations in general
+	form (no initial conditions).
+	\begin{enumerate}[label=\alph*]
+	\item  Bessel\textquotesingle s Equation
+		\begin{equation}
+			x^{2}(\dfrac{d^{2}}{dx^{2}}f(x))+x(\dfrac{d}{dx}f(x))+(x^{2}-n^{2})f(x)=0
+		\end{equation}
+	\item  Legendre\textquotesingle s Equation
+		\begin{equation}
+				(1-x^{2})(\dfrac{d^{2}}{dx^{2}}f(x))-2x(\dfrac{d}{dx}f(x))+n(n+1)f(x)=0
+		\end{equation}
+	\end{enumerate}
+\subsection*{\small{P7.9}}\label{P7.9}
+	 Read the section titled \textquotesingle\textquotesingle Numerical solutions to ordinary differential equations\textquotesingle\textquotesingle in the Mathematica tutorial Differential equations with Mathematica
+	\begin{enumerate}[label=\alph*]
+		\item Ask Mathematica to solve the following differential equation symbolically and see what happens.
+		\begin{equation}\label{7.12}
+			\dfrac{d^{2}}{dx^{2}}y(x)=10sin(y(x))cos(x)
+		\end{equation}
+		Now write the equation as a first order set, and solve it numerically
+	    with $y(0) = 0$ and $v(0) \equiv y\textquotesingle (0)+0.1 .$ 
+	    Plot y(x) from $x = 0$ to $x = 100$.
+	\end{enumerate}
+\end{minipage}
+\end{document}

@@ -1,0 +1,223 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Two Gravitating Bodies}
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk{
+	Let\textquotesingle s continue our study of differential equations by considering two masses
+	interacting through Newton\textquotesingle s law of gravity\textsuperscript{1} The Newton\textquotesingle s second$-$law equations
+	describing this situation are
+	\begin{equation}\label{8.1}
+		m_1\ddot{r_1}=-\dfrac{Gm_1 m_2}{|r_1-r_2|^{3}}(r_1-r_2)
+	\end{equation}
+	\begin{equation}\label{8.2}
+		m_2\ddot{r_2}=-\dfrac{Gm_1 m_2}{|r_1-r_2|^{3}}(r_2-r_1)
+	\end{equation}
+	where
+	$$
+		r_1 = x_1\overleftarrow{x} +y_1\overleftarrow{y} + z_1\overleftarrow{z}$$
+		$$r_2 = x_2\overleftarrow{x} +y_2\overleftarrow{y} + z_2\overleftarrow{z}
+	$$
+	There are twelve components of the motion described by these equations:
+	\begin{equation}\label{8.3}
+		x_1(t),~y_1(t),~z_1(t)~~~~\dot{x_1}(t),~\dot{y_1}(t),~\dot{z_1}(t)\\
+		x_2(t),~y_2(t),~z_2(t)~~~~\dot{x_2}(t),~\dot{y_2}(t),~\dot{z_2}(t)
+	\end{equation}
+		so you\textquotesingle ll need to be careful when writing out the solution.
+	\subsection*{\small{P8.1}}\label{P8.1}
+	\begin{enumerate}[label=\alph*]
+		\item Use \hyperref[8.1]{Eq. 8.1} and \hyperref[8.2]{Eq. 8.2} , plus $\dot{x_1} = v_{x1}$, etc., to obtain the 12 first order
+			differential equations for this system. Write them down on paper in
+			terms of the individual components of the motion listed in\hyperref[8.3]{Eq. 8.3} .
+		\item  Now use your information from (a) to code up a right$-$hand$-$side function for this system. Have Matlab solve this system of equations 	using $G = 1$, $m1 = 1$, $m2 = 2$ and initial conditions\\
+		\begin{flushleft}
+		$x_1(0) = 1, ~~x_2(0) = −1$\\
+		$y_1(0) = 0.5, ~~y_2(0) = −0.3$\\
+		$z_1(0) = −0.3, ~~z_2(0) = 0.6$\\
+		$v_{x1}(0) = 0.65,~~ v_{x2}(0) = −0.45$\\
+		$v_{y1}(0) = 0.2, ~~v_{y2}(0) = 0.3$\\
+		$v_{z1}(0) = 0.1, ~~v_{z2}(0) = −0.3.$\\
+		\end{flushleft}
+		Run the solution from $t = 0$ to $t = 50$, and then plot the two trajectories
+		overlaid on the same plot using plot3.
+		A plot like \hyperref[Figure 8.1]{Fig. 8.1} gives us some sense of how these two objects interact, but
+		it doesn\textquotesingle t show what the dynamics of this system are like. For that, it would be
+		better to make a movie of the interaction by plotting the positions as dots, and
+		then making a movie by showing successive plots at equal time intervals.\\
+		The problem with making movies directly from the data returned by Matlab\textquotesingle s
+		ODE solvers is that the data that Matlab\textquotesingle s ODE solver returns is not equally spaced
+		in time. You can force the Matlab functions to return equally$-$spaced data by
+		giving it a list of specific times for which you want the solution evaluated, but this
+		is computationally expensive if you need a lot of closely spaced time intervals.
+		A better approach is to get the uneven data back from the solver and then use
+		\textit{interpolation} to resample it out over a much finer grid.
+	\end{enumerate}
+}
+\colchunk{
+	\begin{wrapfigure}{r}{9cm}
+\captionsetup{singlelinecheck=off, margin={0cm, 4cm}, justification=raggedright, format=hang}
+\caption{ Two masses interacting
+via the inverse$-$square law.}
+\label {Figure 8.1}
+\includegraphics[width=4cm]{ch8zd}
+\end{wrapfigure}
+}
+\end{parcolumns}
+\footnotetext{\textsuperscript{1}R. Baierlein, Newtonian Dynamics (McGraw Hill, New York, 1983), Chap. 5, and G. Fowles and
+G. Cassiday, Analytical Mechanics (Saunders, Fort Worth, 1999), Chap. 6. }
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\section{Interpolation and Extrapolation}
+\colchunk{
+	\subsection*{\small{P8.2}}\label{P8.2}
+	 Read and work through \textit{Introduction to Matlab}, Chapter 10. Type and
+	execute all of the material written in this kind of font. Then write a
+	Matlab script that creates coarse and fine grids for sinx like this
+	\begin{lstlisting}[language=Matlab][numbers=none]
+		x=0:2*pi;
+		y=sin(x);
+		xfine=-2*pi:0.1:2*pi;
+		yfine=sin(xfine);
+	\end{lstlisting}
+	Use linear interpolation to plot a line using the fine grid that passes through
+	y(1) and y(2). Then use the pchip method (cubic interpolation) and
+	the spline method to plot a curve on the fine grid that passes through
+	y(1), y(2), and y(3). Overlay all of the curves: the coarse plotted as
+	stars, the fine and the interpolated curves as lines. Use these curves to
+	explain the benefits and hazards of using linear and cubic interpolation
+	and extrapolation.
+\subsection*{\small{P8.3}}\label{P8.3}
+ Now let\textquotesingle s go back to your code from \hyperref[P8.1]{P8.1}. After obtaining the solution
+arrays interpolate them onto new arrays equally spaced in time (x1e, y1e,
+z1e, x2e, y2e,... with $N=5*length(t)$). The point here is to make an
+evenly$-$spaced array of time points with 5 times as many time values as
+ode45 returned, but covering the same amount of time. This can be done by
+defining the evenly$-$spaced time interval $dt=t(end)/N$ and then building
+the evenly spaced time array like this:
+\begin{lstlisting}[language=Matlab][numbers=none]
+	te=0:dt:t(end)
+\end{lstlisting}
+	Then use interp1 to build evenly$-$spaced position data like this:
+\begin{lstlisting}[language=Matlab][numbers=none]
+	x1e=interp1(t,x1,te,'spline')
+\end{lstlisting}
+	Now animate the motion of the two masses by using the plot3 command.
+	A nice way to do this animation is to use the arrays that are equally spaced
+	in time, so that you can see the masses speed up as they approach each
+	}
+\end{parcolumns}	
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk{
+	other, and to plot the orbits in segments of 5, or so, data points. Using just
+	one point makes the orbits appear as sequences of dots, and using more
+	points makes the plots be \textquotesingle\textquotesingle jerky.\textquotesingle\textquotesingle A loop that will do this kind of animation
+	is shown below:
+\begin{lstlisting}[language=Matlab][numbers=none]
+	for n=5:4:N
+	plot3(x1e(n-4:n),y1e(n-4:n),z1e(n-4:n),'b-');
+	hold on
+	plot3(x2e(n-4:n),y2e(n-4:n),z2e(n-4:n),'r-');
+	axis equal;
+	pause(.1)
+	end
+	hold off
+\end{lstlisting}
+	As your script runs you should see your masses doing an intricate gravitational dance, and the final picture should look just like the one in \hyperref[Figure 8.1]{Fig. 8.1}
+	(after the appropriate rotation of your figure).
+	}
+	\end{parcolumns}
+	\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk{
+\section{Linear Algebra}
+	\subsection*{\small{P8.4}}\label{P8.4}
+	 Read and execute the examples in \textit{Introduction to Matlab}, Chapter 11. Then
+	complete the following exercises.
+	\begin{enumerate}[label=\alph*]
+		\item  Use Matlab\textquotesingle s dot command to find the angle between the vectors
+		$A = [1, 2, 3]$ and $B = [−3, 2, 1]$.
+		HINT: You will need to calculate the magnitude of a vector to do this
+		problem.
+		\item  Use Matlab\textquotesingle s cross command to find the angular momentum $L =
+		mr \times v$ of a particle at $r = [1,2,3]$ with velocity $v = [6,3,1]$ and mass
+		m = 2.3.
+	\end{enumerate}
+\section{Center of Mass Coordinates}
+	In physics we always seek the simplest description of the motion, which is why in
+	classical mechanics we trade in $r_1$ and $r_2$ for the center of mass position and the
+	relative position of $m_1$ with respect to $m_2$:
+	\begin{equation}\label{8.4}
+		R=\dfrac{m_1 r_1 +m_2 r_2}{m_1 + m_2};~~r=r_1-r_2
+	\end{equation}
+	\subsection*{\small{P8.5}}\label{P8.5}
+	\begin{enumerate}[label=\alph*]
+		\item  Use plot3 to graph R and $V = \dot{R}$ for the initial conditions in \hyperref[P8.1]{P8.1}
+	and show that their motion is very simple. To do the calculations
+	in \hyperref[8.4]{Eq. 8.4} it will be easier to transform the separate x, y, and z arrays
+	into vectors. For instance, the $r_1$ vector would be a matrix with 3
+	columns and as many rows as there were time steps. For example to
+	make the matrix representing $r_1$(t), you would use code like this:
+	\begin{lstlisting}[language=Matlab][numbers=none]
+	r1=[x1,y1,z1];
+	\end{lstlisting}
+	Also define versions of these vectors with the data equally spaced in
+	time so we can animate some plots. Once you have the R matrices,
+	you can access the various components using the colon syntax. For
+	example $R(:,1)$ gives the x$-$component of R etc.
+	\item Make a 3d plot of the difference vector r and use the frame rotation
+	tool on the figure frame to see that this vector seems to sweep out a
+	curve that lies in one plane and looks like an ellipse. Then animate
+	your plot to show the orbit as a function of time.
+	\item  To see why the difference motion r(t) lies in a plane, compute the
+	angular momentum in the center of mass frame
+	\begin{equation}\label{8.5}
+		L = m_1(r_1 −R)\times (v_1 −V)+m2(r_2 −R)\times (v_2 −V)
+	\end{equation}
+	and show numerically that this vector is constant in time. Since you
+	have the vectors that appear on the right$-$hand side of this expression
+	for L you can evaluate the angular momentum as a matrix (rows are
+	time, columns are x, y, z components):
+	\begin{lstlisting}[language=Matlab][numbers=none]
+		L=m1*cross(r1-R,v1-V)+m2*cross(r2-R,v2-V);
+	\end{lstlisting}	
+		And then plot each component of the angular momentum vs. time
+	\item  Show graphically that L is perpendicular to both $r_1 −R$ and $r_2 −R$ (and
+	hence to $r_1 −r_2$). To evaluate these two dot products using Matlab\textquotesingle s
+	dot command you will need to make a slight change to the syntax
+	we used above with the cross command. The dot command when
+	used with matrices needs to know whether we want to do the dot
+	product along the row direction or the column direction. In this lab
+	the rows label time, and the columns label x, y, z components. Since
+	we want to do the dot product with the x, y, z components, we tell the
+	dot product command to use the second, or column, index like this:
+	\end{enumerate}
+	\begin{lstlisting}[language=Matlab][numbers=none]
+		dot1=dot(r1-R,L,2)
+	dot2=dot(r2-R,L,2)
+	\end{lstlisting}	
+	Do not panic when your plots of these two dot products look surprising; check the scale on the left side of the plot. Note that this means
+	that the planar motion you observed in the plot of r is simply a consequence of conservation of angular momentum (think about this and
+	discuss it with your lab partner until you are convinced that it is true).
+\subsection*{\small{P8.6}}\label{P8.6}
+	 Play around with initial condition and plot r(t) for a bunch of cases to see
+	what orbital shapes you can observe. Then choose some initial conditions
+	that make a nice ellipse. Once you have an ellipse, change the power in the
+	denominator of the force law from 3 to 3.1 to see what kinds of orbits power
+	laws other than inverse square make. You should find that the orbit is still
+	sort of elliptical, but that the semi$-$major and semi$-$minor axes rotate; we
+	call this kind of motion \textquotesingle\textquotesingle precession\textquotesingle\textquotesingle and it looks like \hyperref[Figure 8.2]{Fig. 8.2}.\\
+	In general relativity the gravitational force law is not precisely inversesquare, so this kind of precession is expected to occur. Mercury\textquotesingle s orbit
+	has a small precession of this kind (the famous \textquotesingle\textquotesingle precession of the equinox
+	of Mercury\textquotesingle\textquotesingle ) which has been measured for centuries. When Einstein\textquotesingle s
+	equations correctly predicted this precession it was a major triumph for his
+	theory of general relativity.
+	}
+	\end{parcolumns}
+
+	\begin{wrapfigure}{r}{9cm}
+\caption{  Precession of the orbit,
+non-inverse$-$square..}
+\label {Figure 8.2}
+\raggedleft
+\includegraphics[width=4cm]{ch8zd1}
+\end{wrapfigure}
+\clearpage
+\end{document}

@@ -1,0 +1,215 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\newpage
+\begin{parcolumns}[colwidths={2=0.30\linewidth}]{2}
+\colchunk{
+\chapter{Fourier Transforms}
+	\section{Fourier Transforms}
+Suppose that you went to a Junior High band concert with a digital recorder and
+made a recording of Mary Had a Little Lamb. Your ear told you that there were a
+whole lot of different frequencies all piled on top of each other, but perhaps you
+would like to know exactly what they were. You could display the signal on an
+oscilloscope, but all you would see is a bunch of wiggles. What you really want is
+the spectrum: a plot of sound amplitude vs. frequency.
+The mathematical method for finding the spectrum of a signal f (t) is the
+Fourier transform
+\begin{equation}\label{9.1}
+g(\omega )=\dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f(t)e^{i\omega t}  \,dt
+\end{equation}
+If you remember Euler\textquotesingle s relation e
+$i\omega t = cos(\omega t)+i sin(\omega t)$, you can see that the
+real part of $g (\omega )$ is the overlap of your signal with $cos(\omega t)$ and the imaginary
+part of $g (\omega )$ is the overlap with sin$(\omega t)$\textsuperscript{1} Often, we aren\textquotesingle t interested in the phase
+information provided by the complex nature of g $(\omega )$, so we just look at the power
+spectrum $P(\omega )$
+\begin{equation}\label{9.2}
+P(\omega ) = {|g(\omega )|}^{2}
+\end{equation}
+$P(\omega )$ gives the signal intensity as a function of frequency without any phase
+information. In this lab, we will learn how to make these types of plots.
+\section{FFTs and Fourier Transforms}
+\subsection*{\small{P9.1}}\label{P9.1}
+ Read and work through \textit{Introduction to Matlab} Chapter 13. Type and
+execute all of the material written in this kind of font.
+\subsection*{\small{P9.2}}\label{P9.2}
+ On the class web site is a file called \textquotesingle\textquotesingle Beethoven.wav\textquotesingle\textquotesingle that has the first four
+notes of Beethoven\textquotesingle s 5th symphony. Save it to your computer and listen to
+it. Load the sound waveform into the matrix f using\\
+\begin{lstlisting}[language=Matlab][numbers = none]
+f = audioread('beethoven.wav');
+\end{lstlisting}
+Then construct the corresponding t time series by noting that the recording
+was sampled at 44100 points/second. Plot the signal versus time and plot
+its power spectrum versus $\nu$ (not $\omega$) over the range 0$-$1000 Hz with both a
+linear scale and with semilogy. (You should get in the habit of looking at
+
+}
+\colchunk{
+\begin{wrapfigure}{r}{9cm}
+	\captionsetup{singlelinecheck=off, margin={1cm, 4cm}, justification=raggedright, format=hang}
+	\caption{The power spectrum of
+the first four notes of Beethoven\textquotesingle s
+5th symphony.}
+	\label {Figure 9.1}
+	\includegraphics[scale=0.8]{ch999}
+\end{wrapfigure}
+}
+\end{parcolumns}
+\footnotetext{\textsuperscript{1}People often work with complex signals, in which case this separation is less clear.}
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk{
+	spectra with a log scale to see structure that may not be evident on a linear
+scale.)\\
+Now we need to make sense of the spectrum. The short notes at the beginning of the music are the note \textquotesingle\textquotesingle G\textquotesingle\textquotesingle (repeated three times) played in octaves
+by the violins/violas (394 Hz), cellos (197 Hz), and basses (99 Hz). The last
+note is an \textquotesingle\textquotesingle E$-$flat,\textquotesingle\textquotesingle again played in octaves by the various stringed instruments (312 Hz, 156 Hz, and 78 Hz). Identify each of these peaks on the
+spectrum, and explain what their relative amplitudes mean.\\
+Note that there are also smaller peaks at 234 Hz, 468 Hz, 624 Hz, 788 Hz,
+and 936 Hz. Explain where these extra peaks come from, and how each of
+the smaller peaks are connected to the notes in the four$-$note theme (see
+\hyperref[Figure 9.2]{Fig. 9.2}).\\
+To convince yourself that you know what you are doing, split the time series
+into two pieces: one that contains the first three short notes, and a second
+that only contains the one last long note. Then repeat the analysis above
+and compare your two new spectra to the original one. Show the TA all
+three spectra and explain the origin of all of the peaks.
+\section{The Uncertainty Principle}
+The uncertainty principle connects the duration of a signal in time with the
+spread of its spectrum. It was made famous in quantum mechanics by Werner
+Heisenberg, but it is really an idea from classical wave physics\textsuperscript{2} which we can
+understand by using the fft.\\
+Suppose that we have a time signal which has a frequency $\omega _0$, but which only
+lasts for a finite time $\Delta t$. For example, consider the Gaussian function
+\begin{equation}\label{9.3}
+	f(t)=cos(\omega _0 t)e^{-{(t-t_0)}^{2}/W^{2}}
+\end{equation}
+which has a \textquotesingle\textquotesingle bump\textquotesingle\textquotesingle centered at $t_0$ with a width controlled by W . Because the
+signal oscillates at $\omega _0$ we would expect to see a peak in the spectrum at $\omega = \omega _0$.
+This frequency peak also has a well$-$defined width, and this width is related to the
+width of the signal in time through the uncertainty principle.
+\subsection*{\small{P9.3}}\label{P9.3}
+ Write a Matlab script to build f (t) from \hyperref[9.3]{Eq. 9.3}, with $t_0$ chosen so that
+the bump is in the center of your time window. Plot f (t) and its power
+spectrum for $\omega _0 = 200s^{−1}$
+and $W = 10$, 1, and 0.1.\\
+Choose appropriate values for your number of points N and your time step\\
+$\tau$ so that\\
+(i) fft will run fast
+(ii) you can see frequencies up to$ \omega = 400 s^{−1}$ without aliasing trouble
+(iii) your spectral resolution will be at least $d\omega = 0.2 s^{−1}$
+To see where the uncertainty principle is lurking in these plots, visually
+measure and write down the full width at half maximum (FWHM) of the
+time signal $(\Delta t)$ and FWHM of the frequency peak $(\Delta \omega plot)$. Write these
+measurements in \hyperref[Table 9.1]{Table 9.1} for each value of W . Then deduce a rough
+product relation $\Delta \omega \Delta t$ $\approx$ const between the width of the time signal and
+the width of the frequency peak from this data\textsuperscript{3} \\
+You have probably experienced the uncertainty principle when listening to
+music be narrow relative to the location of the peak. So for a flute playing a high note at $\omega = 6000s^{-1}$ to produce a spectru, with, say a $1%$width requires$\Delta \omega
+=(0.01)(6000s^{-1})=60s^{-1}$.Then the uncertainty principle tells us that this
+note can be produced by only holding it for the relatively short time of
+\begin{equation}
+	\Delta t \approx \dfrac{1}{60} = 0.017 s
+\end{equation}
+where we have arbitrarily chosen $\Delta \omega \Delta t = 1$ to make the calculation. But when
+a tuba plays a low note around $\omega  = 200 s^{−1}$
+, the same calculation using $\Delta \omega  =
+(200)(.01) = 2$ gives a note$-$duration of only
+\begin{equation}
+	\Delta t \approx \dfrac{1\pi}{\Delta \omega} \approx \dfrac{1}{2} = 0.5s
+\end{equation}
+}
+\colchunk
+{
+\begin{wrapfigure}{l}{6cm}
+\captionsetup{singlelinecheck=off, margin={2cm, 0cm}, justification=raggedright, format=hang}
+\caption{ \small{A string\textquotesingle s fundamental mode of vibration has nodes
+at the ends and an antinode in
+the middle. However, the string
+can also vibrate in harmonic
+modes with nodes between the
+ends. When a musician drags
+her bow across a string, she
+excites mostly the fundamental, but the harmonics are also
+present. The frequencies of these
+modes are: $\nu _0$ = fundamental,
+$2\nu _0$ = second harmonic, $3\nu _0$ =
+third harmonic, etc.}}
+\label {Figure 9.2}
+\includegraphics[width=4cm]{ch992}
+\end{wrapfigure} 
+}
+\end{parcolumns}
+\footnotetext{\textsuperscript{2}The weirdness of quantum comes not from the fact that waves obey the uncertainty principle,
+but from the idea that things like electrons behave like waves.}
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk{
+Now tubas can play faster than this, but if you listen carefully, when they do
+their sound becomes \textquotesingle\textquotesingle \textquotesingle\textquotesingle, which simply means that the note isn\textquotesingle t a very pure
+frequency, corresponding to a wide frequency peak\textsuperscript{4} Your ear$/$brain system also
+helps you out here. It is pretty talented at turning lousy signals into music, so you
+can still enjoy \textquotesingle\textquotesingle Flight of the Bumblebee\textquotesingle\textquotesingle even when played by a tuba\textsuperscript{5}.\\
+You can also hear this effect simply by clapping your hands. If you cup your
+hands when you clap, you trap a lot of air, which responds rather slowly to your
+clap. This makes a larger value of $\Delta t$, which in turn means that $\Delta \omega$ is smaller,
+corresponding to the low frequencies that make up the low, hollow boom of a
+cupped clap. But if you slap your third and fourth fingers quickly on your palm
+you trap almost no air, resulting in a very small $\Delta t$, and hence, via the uncertainty
+principle, a larger $\Delta \omega $. And a larger $\Delta \omega$ means a higher set of frequencies in the
+sound of your clap, which you can clearly hear as a higher$-$pitched burst of sound.
+\section{Windowing}
+Review the material on windowing in \textit{Introduction to Matlab}, then work through
+the following problem.
+\subsection*{\small{P9.4}}\label{P9.4}
+ Modify Listing 13.1 in \textit{Introduction to Matlab} so that it uses the following
+time signal
+\begin{lstlisting}[language=Matlab][numbers=none]
+	f=sin(t)+.5*sin(3*t)+.4*sin(3.01*t)+.7*sin(4*t)+.2*sin(6*t);
+\end{lstlisting}
+Plot the power spectrum versus ω and verify the relative amplitude problem
+discussed in the windowing section in \textit{Introduction to Matlab}. To make the
+ratio issue clear, normalize the spectrum so the biggest peak has height 1
+(i.e. plot P/max(P) instead of P).
+Multiply the time signal by a Gaussian window function like this
+\begin{lstlisting}[language=Matlab][numbers=none]
+win = window(@gausswin,length(f),alpha)';
+f = f .* win;
+\end{lstlisting}
+he transpose operator (\textquotesingle ) at the end of the first line switches the window
+from a column vector to a row vector so that the multiplication works. The
+parameter alpha is specific to a Gaussian window, and is related to \hyperref[9.3]{Eq. 9.3}
+via $\alpha \infty 1/W —i.e$. a bigger α creates a narrower signal in time. Try several
+values of alpha and look at plots of win and f.*win to see what the window
+function does.\\
+Make the window really narrow with $alpha=25$ and plot the power spectrum of f.*win. Look at the peaks at $\omega = 1,4,6$, and verify that the relative
+amplitudes are now right on. (Remember that power is proportional to
+amplitude squared.) But what happened to the peaks at $\omega = 3~ and~ \omega = 3.01$?
+We\textquotesingle ve made the peaks so broad that they\textquotesingle ve smooshed into each other due
+to leakage. Find an alpha that is a good compromise between getting the
+right peak amplitude and maintaining good resolution. Explain the concepts of windowing and leakage, and tell how they relate to resolving the
+height and width of closely spaced peaks.
+\subsection*{\small{P9.5}}\label{P9.5}
+Use Matlab to numerically verify the trig identity $cos^{4}(t)=3/8+(1/2)
+cos(2t)+(1/8)cos(4t)$ by plotting the Fourier transform of the function. You will need
+to choose an appropriate time series and window function to see the relationships accurately.
+}
+\colchunk{
+\begin{wrapfigure}{r}{9cm}
+\captionsetup{singlelinecheck=off, margin={0cm, 4cm}, justification=raggedright, format=hang}
+\caption{Enter your data here}
+\label {Table 9.1 }
+\includegraphics[width=4cm]{ch93}
+\end{wrapfigure}
+}
+\end{parcolumns}
+\footnotetext{\textsuperscript{3}This is not a mathematically rigorous uncertainty relation, but it illustrates the idea.}
+\footnotetext{\textsuperscript{4}The length of the tuba also contributes to the \textquotesingle\textquotesingle muddyness\textquotesingle\textquotesingle of the sound, since it takes a while
+for sound to propagate back and forth between the mouthpiece and the bell and set up the standing
+wave. This causes a messy \textquotesingle\textquotesingle attack\textquotesingle\textquotesingle transient at the beginning of each note, which means you have
+less of the sustained pitch to listen to.}
+\footnotetext{\textsuperscript{5}At tuba frequencies, your ear/brain system can perceive pitch for pulses containing only a few
+cycles.}
+\newpage 
+
+\end{document}

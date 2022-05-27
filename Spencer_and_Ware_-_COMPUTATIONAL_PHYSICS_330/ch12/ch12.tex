@@ -1,0 +1,303 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\chapter{Chaos}
+\colchunk{
+\section{The van der Pol Oscillator}
+Consider the following non-linear oscillator equation, called the van der Pol
+oscillator:\textsuperscript{1}
+\begin{equation}\label{12.1}
+\ddot{x}-\epsilon (\ell ^{2}-x^{2})\dot{x}+{\omega _0}^{2}x=0
+\end{equation}
+This is a simple model differential equation for systems that have an external
+source of energy which causes the resting state $(x = 0, v = 0)$ to be unstable,
+but which also have sufficient damping that the instability cannot grow to an
+arbitrarily large amplitude.\\
+Begin by studying \hyperref[12.1]{Eq. 12.1} and convincing yourself that the resting state is
+indeed unstable, but that large amplitude motion is damped (on average). You
+can\textquotesingle t see that $x = 0, v = 0$ is unstable by starting the system there and waiting for
+something to happen, because nothing will happen. This is an equilibrium point
+and if you start it there it will remain there forever. To test for stability, start the
+system in a point very close to equilibrium and watch to see if it stays near the
+equilibrium point, or runs away from it. Appropriate initial conditions to test
+for stability might be $x = 0.0001, v = 0$. The phase$-$space flow plot, made with
+quiver, in \hyperref[Figure 12.1]{Figure 12.1} illustrates these two features. Notice the arrows leading away
+from the origin and the general inward flow at the outer edges of the picture. The
+flow is not uniformly inward, however, and later in this lab you will see the effect
+of the squeezed inward flow patterns visible in the figure.
+\subsection*{\small{P12.1}}\label{P12.1}
+\begin{enumerate}[label=\alph*]
+\item Use Matlab\textquotesingle s ode45 to solve \hyperref[12.1]{Eq. 12.1} numerically for $\epsilon = 0.3, \omega _ 0 =
+1.3, and \ell = 1$. Use options=odeset(\textquotesingle RelTol\textquotesingle ,1e$-$5) to set the
+accuracy of ode45 at a level that will make it possible to do long runs
+in a reasonable time. (We would normally use a smaller tolerance
+than this, but we only have 3 hours together). Make both a plot of x vs.
+t as well as a phase space plot of v vs. x for a bunch of different initial
+conditions. Notice that the phase space plot eventually settles on the
+same curve for any initial conditions you pick. The phase space curve
+on which the solutions settle is called a limit cycle
+\item  Repeat part (a) for $\epsilon = 1~ and~ \epsilon = 20$ and note how the limit cycle
+changes shape. Also plot the power spectrum of x(t) with semilogy
+using an axis command to display the spectrum from $\omega  = 0 ~to~ \omega = 20$
+and note where the major peaks are. Remember to interpolate x(t)
+onto an even time grid before computing the Fourier transform.
+\end{enumerate}
+}
+\colchunk{
+\begin{wrapfigure}{r}{8cm}
+	\captionsetup{singlelinecheck=off, margin={0cm, 4cm}, justification=raggedright, format=hang}
+	\caption{ Flow in phase space
+for the Van der Pol oscillator with $\omega _0=1, \ell =1,~ and~ \epsilon = 1$}
+	\label {Figure 12.1}
+	\includegraphics[scale=0.8]{ch12zdj12}
+\end{wrapfigure}  
+}
+\end{parcolumns}
+\footnotetext{\textsuperscript{1}R. Baierlein, Newtonian Dynamics (McGraw Hill, New York, 1983), p. 88$-$93.}
+\newpage
+\begin{minipage}[t]{10cm}
+\section{Limit Cycles and Attractors}
+The limit cycle you observed in this problem is a simple example of an attractor
+in phase space. An attractor is a curve in the phase$-$space of the differential
+equation to which many different solutions (having different initial conditions)
+tend. For instance, for the damped un$-$driven harmonic oscillator the attractor is
+just the state of no motion: $x = 0, v = 0$, because all solutions end up here. For the
+driven damped harmonic oscillator the attractor is more interesting: it is the final
+driven steady state of the oscillator, which looks like an ellipse in phase space.
+Since this attractor is not a single point, we also call it a limit$-$cycle. For the van
+Der Pol equation the attractor is the oddly$-$shaped curve (or limit$-$cycle) in the
+$(x, v)$ phase space to which all solutions tend.\\
+Sometimes an attractor is not a single curve, but rather a very complex structure, like the famous Lorenz attractor (which you can explore a little bit by typing
+lorenz at the command prompt in Matlab). These kind of attractors are called
+strange attractors, and are examples of chaotic systems. We\textquotesingle ll study chaos later in
+this lab and you will see other examples of attractors, but none of the attractors
+encountered in this lab are strange attractors (except the Lorenz attractor).
+\subsection*{\small{P12.2}}\label{P12.2}
+ Now let\textquotesingle s add a driving force to the van der Pol oscillator, like this:
+\begin{equation}\label{12.2}
+\ddot{x}-\epsilon(\ell ^{2} -x^{2})\dot{x}+{\omega _0}^{2}x=Acos\omega t
+\end{equation}
+Using $\ell = 1, \epsilon = 2, \omega _0 = 1.3, and \omega = 1.4$, gradually increase A from 0 to 1.5
+and watch what happens to the power spectrum of x(t). Change A by steps
+large enough to see qualitative changes, i.e., don\textquotesingle t do A = 0.01, A = 0.02,
+A = 0.03, etc.
+You should find that as A is increased the limit cycle becomes fuzzy and that
+the power spectrum becomes increasingly filled with spikes. Finally, around
+A = 1.25 $\rightarrow$ 1.27 the power spectrum becomes so complicated that it is fuzzy
+too (use the zoom feature on the spectrum to see that the spectrum is made
+up of many tiny peaks). And then, quite abruptly, at about A = 1.28 the
+oscillator becomes slaved to the drive, meaning that the oscillator vibrates
+at the driving frequency $\omega  = 1.4$ and its harmonics, making the spectrum
+simple again. (Look carefully at the power spectrum to see that this is true).
+\section{Entrainment}
+The kind of behavior illustrated in \hyperref[P12.2]{P12.2} is called entrainment, in which an oscillator becomes synchronized to another periodic signal. An important example of
+a system like this is the human heart. The heart has an external source of power,
+has an unstable resting state (it wants to beat rather than sit still), and, normally, a
+stable limit cycle (thump$-$Thump, thump$-$Thump,...). Sometimes this stable limit
+cycle becomes irregular, in which case it is desirable to supply a periodic driving signal via a pacemaker which, if strong enough, can force the heart to become
+entrained with it, restoring a stable limit cycle, albeit at a frequency determined
+by the pacemaker rather than by the physical needs of the patient.
+\end{minipage}
+\newpage
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk{
+\section{Dynamical Chaos}
+Now let\textquotesingle s switch gears a bit and take a brief tour through one of the most exciting
+areas in the study of differential equations: dynamical chaos. A chaotic system is
+one where dynamical variables (e.g. position and velocity) behave in seemingly
+erratic ways and exhibit extreme sensitivity to initial conditions. Chaotic systems
+are deterministic, since a given set of parameters and initial conditions reproduce the same motion, but it is usually difficult to predict how tiny variations in
+parameters or initial conditions will affect the motion.\\
+Chaotic systems have been known and studied for a long time. For instance,
+it comes as no surprise that when you have 1023 atoms bouncing around inside a
+container, hitting the walls and hitting each other, that the motion of any given
+atom is pretty chaotic. But in the middle of the twentieth century it was discovered
+that even simple systems can be chaotic. For instance, here is the apparently
+nice, smooth, and well$-$behaved differential equation for the driven damped
+pendulum:
+\begin{equation}\label{12.3}
+\dfrac{d^{2}\theta}{dt^{2}}+\gamma \dot{\theta}+{\omega _0}^{2}sin\theta =Acos\omega t
+\end{equation}
+This system has only two degrees of freedom (way less than $10^{23}$) and all of the
+functions that appear in it are nice and smooth. But for certain choices of A, $\omega$,
+$\omega _0$, and $\gamma $ the solutions of this differential equation are almost as unpredictable
+as the motion of an atom in a gas.\\
+Chaos is hard to study because that old standby of physical theory, the formula, is not of much help. If we had a formula for the solution of this differential
+equation its behavior would be perfectly predictable and un$-$chaotic. Since the
+dynamics in chaotic systems are not represented by analytic formulas, their solution had to wait for computers to be invented and to become powerful. The
+computers we will use in this laboratory are more powerful than the computers
+we used to send men to the moon and to design nuclear weapons in the 1960s
+and 1970s, so we have all the computing power we need to at least be introduced
+to this fascinating field.
+\subsection*{\small{P12.3}}\label{P12.3}
+ A simple system in which chaos can be observed is a particle moving in a
+potential well with two low spots:
+\begin{equation}\label{12.4}
+U(x)=-\dfrac{x^{2}}{2}+\dfrac{x^{4}}{4}.
+\end{equation}
+\begin{enumerate}[label=\alph*]
+\item  Plot this potential vs. x and locate the two stable equilibrium points
+(the one in the middle is unstable).
+\item Let a particle have mass m = 1 and use the force relation
+\begin{equation}\label{12.5}
+f_x=-\dfrac{\partial U}{\partial x}
+\end{equation}
+to derive the equation of motion of the particle. Then write a Matlab
+script and a function that employs ode45 to solve for the motion of the
+particle. Use options=odeset(\textquotesingle RelTol\textquotesingle ,1e$-$6) to set the accuracy
+of ode45. Try several different initial conditions and watch how the
+particle behaves in this double well. Look at the motion in phase space
+for enough different initial conditions that you can see the transition
+from motion in one well or the other to motion that travels back and
+forth between the wells.
+\item Now add a driving force of the form $F = Acos 2t$ and also include a
+linear damping force $Fd_{damp} = −m\gamma \dot{x}$ with $\gamma  = 0.4$. Use initial conditions $x(0) = 1, v(0) = 0$, and make a series of runs with A gradually
+increasing until you observe chaotic behavior. (The transition from
+regular motion to chaos occurs between A = 0.7 and A = 0.8). Run
+from t = 0 to t = 1000. A plot of x(t) should show random jumping
+between the left and right sides of the double well, as illustrated in
+\hyperref[Figure 12.2]{Figure 12.2}. For each run make a plot of the power spectrum of x(t).
+Show the TA how your plots illustrate intermittency and 1/f noise
+(described below).
+\item  With A = 0.9 do two runs, one with initial conditions x(0) = 1, v(0) = 0,
+and the other with x(0) = 1.000001 and v(0) = 0. Plot x(t) for each
+of these cases, and explain to the TA how these plots illustrate the
+butterfly effect (described below).
+\end{enumerate}
+}
+\end{parcolumns}
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk
+{
+	\section{Intermittency, 1/f Noise, and the Butterfly Effect}
+	The random switching back and forth between equilibrium positions observed in
+\hyperref[P12.3]{P12.3}(c) is called intermittency and is one of standard ways that regular systems
+become chaotic. As the motion becomes chaotic you should also see an increase
+in the spectrum near $\omega = 0$. This low frequency peak in the spectrum is one of the
+symptoms of chaos (called \textquotesingle\textquotesingle 1/f \textquotesingle\textquotesingle ) and is a direct consequence of the slow
+random switching of intermittency.\\
+Another hallmark of chaotic systems is the so-called \textquotesingle\textquotesingle butterfly effect\textquotesingle\textquotesingle (illustrated in \hyperref[P12.3]{P12.3}(d)), where very small changes in the initial conditions cause
+large differences in the motion. This effect was discovered by Edward Lorenz
+(for whom the Lorenz attractor is named), who was a meteorologist that studied
+numerical models for weather prediction in the early 1960s. He noticed that very
+tiny differences in initial conditions (too small to even be measured) led to vastly
+different outcomes in his model. The effect gets its name from a talk that he gave
+in 1972 titled \textquotesingle\textquotesingle Predictability: Does the Flap of a Butterfly\textquotesingle s Wings in Brazil set off a
+Tornado in Texas?\textquotesingle\textquotesingle .
+\subsection*{\small{P12.4}}\label{P12.4}
+\begin{enumerate}[label=\alph*]
+\item  Make a phase space plot for the system in \hyperref[P12.3]{P12.3}c) with A = 0.96. You
+should find that the chaotic behavior quiets down and is replaced by
+a limit cycle in phase space. It will be difficult to see the limit cycle on
+the phase space plot because of the messy transients at the beginning.
+To eliminate the transients make the phase space plot like this (We chose to skip the first 60 percent $-$ you can try your own value):
+\begin{lstlisting}[language=Matlab][numbers=none]
+N=length(x);
+n1=ceil(.6*N); % n1 starts 60% into the array
+plot(x(n1:N),v(n1:N));
+\end{lstlisting}
+\item Make another phase space plot at A = 1.30. The single limit cycle
+should be replaced by a 2$-$cycle (two loops in phase space before
+repeating);\\
+Note: to really see the multiple character of these cycles, use the zoom
+feature in the plot window to look carefully at them, especially near
+the tight loops. This is shown in \hyperref[Figure 12.3]{Figure 12.3} for the 4$-$cycle state. In
+the upper window the full time history is shown from the beginning
+while in the lower window the late$-$time final state in the window
+from the upper frame is shown. There are clearly 4 repeated loops
+in phase space, so this is called a 4$-$cycle. This is an example of the
+famous \textquotesingle\textquotesingle period$-$doubling route\textquotesingle\textquotesingle to chaos, as well as an example of
+regular behavior in a region of parameter space where you might have
+expected chaos.
+\item Make phase space plots of the limit cycle at A = 1.36 (a 4$-$cycle state),
+which is then replaced by an 8$-$cycle at A = 1.371, and then chaos
+takes over again.\\
+If you run with A = 1.97, 1.99, and 2.0, you will see chaos disappear to
+be replaced by a 2$-$cycle, a 4$-$cycle, and an 8$-$cycle. Beyond 2 there is
+chaos again.\\
+At A = 3 the amplitude is large enough that the oscillator becomes
+slaved to the drive and we have entrainment. You might think that
+large A would always cause entrainment, but A = 50 is chaotic, and
+there are probably lots of 2,4,8,... cycles and chaotic regions as A is
+varied. We ran out of patience; let us know what you find.\\
+Note: when you run with A = 1.36 your phase$-$space picture may look
+like an upside$-$down left$-$right flipped version of \hyperref[Figure 12.3]{Figure 12.3}. This is OK$–$
+the differential equation is almost unchanged if (x, v) is replaced with
+$(−x,−v)$. The only difference is that the driving term is replaced by
+its negative, which is equivalent to a phase shift of $\pi$. Such a phase
+shift could occur by having the oscillator start up in a different way,
+which might easily happen if your initial conditions were not exactly
+the same as ours. This flipped$-$over state is to be expected on physical
+grounds. Our picture has tight loops on the left and big loops on the
+right, but the potential is left$-$right symmetric; there should be another
+state with tight loops on the right and big ones on the right as well.
+\end{enumerate}
+}
+\colchunk{
+\begin{wrapfigure}{r}{4cm}
+\captionsetup{singlelinecheck=off, justification=raggedright, format=hang}
+\caption{Intermittent random
+bouncing between the two wells.}
+\label{Figure 12.2}
+\includegraphics[scale=0.8]{ch12zdj2}
+\end{wrapfigure}
+\begin{wrapfigure}{r}{4cm}
+\caption{Full time history, then
+final 4$-$cycle state from the small
+window. There are fewer loops in
+the lower trace because it is the
+final state; the extra loops in the
+box in the upper trace are from
+early times.}
+\label{Figure 12.3}
+\includegraphics[scale=0.6]{ch12123}
+\end{wrapfigure} 
+}
+\end{parcolumns}
+\begin{parcolumns}[colwidths={2=0.3\linewidth}]{2}
+\colchunk
+{
+\section{Fractals}
+\subsection*{\small{P12.5}}\label{P12.5}
+\begin{enumerate}[label=\alph*]
+\item The Fibonacci sequence $F_n$ is defined by
+\begin{equation}\label{12.6}
+	F_1 =1~~;~~F_2=1~~;~~F_n=F_{n-1}+F_{n-2} ~for ~n\geq 3
+\end{equation}
+(The first few numbers in the sequence are 1,1,2,3,5,8,13,...). Write
+a loop that fills the array Fn with the first 100 values of the Fibonacci
+sequence.
+\item Now define an array x that goes from $−2\pi$ to $2\pi$ with 50,001 equally
+spaced values, like this:
+\begin{lstlisting}[language=Matlab][numbers=none]
+h=4*pi/50000;
+x=-2*pi:h:2*pi;
+\end{lstlisting}
+Then write a loop that evaluates the Fourier$-$like series
+\begin{equation}\label{12.7}
+G(x)=\sum_{n=1}^{100}\dfrac{cos(F_n x)}{F_n}.
+\end{equation}
+Plot this function vs. x and carefully observe its shape (this function
+is shown in \hyperref[Figure 12.4]{Figure 12.4}). Then use the zoom feature to more closely
+examine some of the smaller mountain peaks to discover that each
+mountain peak contains smaller versions of itself.\\
+If you zoom in too much you will run out of points, so now plot the
+function again using 50,001 points between x = 3.1 and x = 3.2, and
+zoom in again. This kind of curve is called a fractal, or fractal curve\textsuperscript{2}
+and such curves are important in chaos theory.
+\end{enumerate}
+}
+\colchunk
+{
+\raggedright
+\begin{wrapfigure}{r}{4cm}
+\caption{The function plotted
+in \hyperref[P12.5]{P12.5}}
+\label {Figure 12.4}
+\includegraphics[scale=0.8]{ch12ks}
+\end{wrapfigure} 
+}
+\footnotetext{\textsuperscript{2}S. N. Rasband, Chaotic Dynamics of Nonlinear Systems (John Wiley and Sons, New York, 1990),
+Chap. 4, and http://sprott.physics.wisc.edu/fractals.htm}
+\end{parcolumns}
+\end{document}

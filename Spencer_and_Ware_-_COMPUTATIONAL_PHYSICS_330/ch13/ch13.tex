@@ -1,0 +1,219 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Coupled Nonlinear Oscillators}
+\begin{minipage}[t]{12cm}
+\setlength{\parindent}{1.5em}
+	When two or more oscillators are hooked together, we say that they are coupled\textsuperscript{1} Our final model for driving a swing was an example of coupled pendula.
+	In that case the rotation of the swinger was coupled to the rotation of the overall
+	swing, which allows you to drive the swing.\\
+	\indent In this lab we consider a different method for coupling pendula. Consider two
+	pendula hanging from the same piece of horizontally$-$stretched rubber tubing.
+	If one pendulum is held fixed and the second is displaced from equilibrium, the
+	second one experiences a restoring torque from two separate sources: (a) gravity
+	and (b) the rubber tubing. If both pendulums are displaced together each one
+	experiences gravity and restoring torque from the tubing, but the tubing between
+	the two plays no role because they both twist it in the same direction. But if the
+	pendulums are displaced in opposite directions then the tubing between them
+	is flexed, causing an extra restoring torque. This difference in restoring force
+	between the \textquotesingle\textquotesingle together\textquotesingle\textquotesingle and \textquotesingle\textquotesingle opposite\textquotesingle\textquotesingle motions is the cause of the two slightly
+	different frequencies that produce the beating you will see throughout this lab.\\
+\section{Coupled Equations of Motion via Lagrangian Dynamics}
+	For small displacements, the effect of gravity (plus a small contribution from the
+	tubing) can be modeled as restoring torsional springs with spring constants $\kappa 1$
+	and $\kappa 2$ for pendulum 1 and pendulum 2, respectively. This leads to a potential
+	energy
+\begin{equation}\label{13.1}
+U=\dfrac{1}{2•}\kappa _1 {\theta _1}^{2}+\dfrac{1}{2}\kappa _2 {\theta _2}^{2}
+\end{equation}
+	The tubing also adds a coupling term to the potential energy of the form
+\begin{equation}\label{13.2}
+U_c=\dfrac{1}{2}\kappa _c(\theta _1 -\theta _2 )^{2}
+\end{equation}
+	Note that this extra restoring potential energy is zero if the angular displacements
+	are equal. The total potential energy is
+\begin{equation}\label{13.3}
+	U=\dfrac{1}{2}\kappa _1 {\theta _1}^{2}+\dfrac{1}{2}{\kappa _2}{\theta _2}^{2} +\dfrac{1}{2}\kappa _c (\theta _1 - \theta _2)^{2}
+\end{equation}
+\subsection*{\small{P13.1}}\label{P13.1}
+	Combine this potential energy function with the kinetic energy
+\begin{equation}\label{13.4}
+	T=\dfrac{1}{2}I _1 \dot{\theta _1}^{2} + \dfrac{1}{2} I_2\dot{\theta _2}^{2}
+\end{equation}
+\footnotetext{\textsuperscript{1}G. Fowles and G. Cassiday, Analytical Mechanics (Saunders, Fort Worth, 1999), p. 443$-$460.}
+\end{minipage}
+\newpage
+\begin{parcolumns}[colwidths={2=0.25\linewidth}]{2}
+\colchunk
+{
+to build the Lagrangian $(L = T  − U)$. Use the Lagrangian equation of motion
+\begin{equation}\label{13.5}
+\dfrac{\partial L}{\partial q_i} - \dfrac{d}{dt}(\dfrac{\partial L}{\partial \dot{q_i}})=0
+\end{equation}
+	\\to derive equations of motion for $\theta 1(t)$ and $\theta 2(t)$. Then simplify these
+	equations by assuming that the two pendula are identical so that $\kappa _1 = \kappa _2 = \kappa$
+	and I1 = I2 = I. Also eliminate the spring constants and moments of inertia
+	in favor of frequencies according to the definitions
+\begin{equation}\label{13.6}
+	{\omega _0}^{2}=\dfrac{\kappa }{I}~~;~~{\omega _c}^{2}=\dfrac{\kappa _c}{I}
+\end{equation}
+	\\Finally, put these two second$-$order differential equations in coupled first
+	order form.\\
+	If you did \hyperref[P13.1]{P13.1} correctly, you should have arrived at the following four firstorder differential equations for describing the motion of the coupled$-$pendulum system:
+\begin{equation}\label{13.7}
+\dot{\theta _1}~~=~~\omega _1
+\end{equation}
+\begin{equation}\label{13.8}
+	\dot{\theta _2}~~=~~\omega _2
+\end{equation}
+\begin{equation}\label{13.9}
+	\dot{\omega _1} =-{\omega _0}^{2}\theta _1-{\omega _c}^{2}(\theta _1 - \theta _2)
+\end{equation}
+\begin{equation}\label{13.10}
+	\dot{\omega _2} =-{\omega _0}^{2}\theta _2-{\omega _c}^{2}(\theta _2 - \theta _1)
+\end{equation}
+	\\The four variables are: the angular positions of the two pendulums$\theta _1(t)$ and
+	$\theta _2(t)$ (remember that $\theta = 0$ corresponds to the pendulum hanging straight down)
+	and, the angular velocities of the two pendulums $\omega _1(t) and \omega _2(t)$. The parameter
+	$\omega _0$ is associated with the natural frequency of a single pendulum without any
+	coupling, and the parameter $\omega _c$ is associated with the natural frequency of the
+	middle section of tubing when attached to the two pendula.\\
+\subsection*{\small{P13.2}}\label{P13.2}
+\begin{enumerate}[label=\alph*]
+\item  Use Mathematica to solve \hyperref[13.7]{Eq. 13.7}$-$(\hyperref[13.10]{13.10}) symbolically without
+	initial conditions to see if you can find the two separate frequencies
+	that cause the beating you will see when you solve them in Matlab.
+\item Now numerically solve this system in Matlab with $\omega _0 = 1.3 ~and~ \omega _c =
+	0.3$; for initial conditions let everything be zero except $\theta _1(0) = 0.3$.
+	Make plots of $\theta _1(t) and \theta _2(t)$, one above the other using subplot\textsuperscript{2}
+	like this:
+\begin{lstlisting}[language=Matlab][numbers=none]
+	subplot(2,1,1)
+	plot(te,th1e)
+	subplot(2,1,2)
+	plot(te,th2e)
+\end{lstlisting}
+	Run long enough that something interesting happens, i.e., run at least
+	long enough that $\theta _2(t)$ becomes large, then small again. You should
+	be looking at the beat plot in \hyperref[Figure 13.1]{Fig. 13.1}. This pattern of increasing and
+	decreasing amplitude in the plots of $\theta _1(t) ~and ~\theta _2(t)$ is an example of
+	interference beats caused by the presence of two different frequencies
+	in the dynamics.
+\item  Run the solution out for long enough that when you take the FFT of
+	$\theta _1(t)$ you can see the two peaks in the power spectrum corresponding
+	to the two frequencies whose mixing causes the beats. Verify that
+	the beat frequency $\omega _b = 2\pi /Tb$, (where Tb is the time for one of the
+	oscillators to be at maximum amplitude, go to zero amplitude, then
+	come back to maximum amplitude again) is related to the two peaks
+	in the spectrum $\omega + ~and~ \omega −$ by
+\begin{equation}\label{13.11}
+	\omega _b = \omega _+ - \omega _ -
+\end{equation}
+	\\Also verify that the two frequencies you observe in the FFT are the two
+	frequencies predicted by your Mathematica calculation.
+	Note: the figure at the beginning of this lab does not have enough
+	oscillations in it for the FFT to work well. As a general rule, your time
+	plots should look solid if you want to use the FFT. A maximum time
+	around 2000 works fine.
+\item Now add a linear damping term to the equation of motion for pendulum number 2, start the system with these initial conditions: $\theta _1(0) =0.3,		\dot{\theta _1}=0,\dot{\theta _2}=0,\theta _2 = 0$ and study the motion of the two
+oscillators. Use
+\begin{equation}\label{13.12}
+	\ddot{\theta _2} = \ \gamma \dot{\theta _2} + . . .
+\end{equation}
+	\\with $\gamma$ = 0.07. Look at the plots for $\theta _1(t) ~and~ \theta _2(t)$ and discuss what
+	happens to the energy that was initially put into pendulum number 1.
+\item Now drive pendulum number 1 by applying a small negative torque
+	N1 = $−$0.3 whenever $\theta _1$ is positive and $\dot{\theta}$
+	1 is negative. You will need
+	to use an if statement in the M$-$file that defines the right$-$hand side
+	of your set of differential equations to make this work. This driving
+	force is similar to the escapement in a pendulum clock in which a
+	mechanical linkage allows the weights to push on the pendulum when
+	it is at the proper place in its motion. Think about this drive and verify
+	that it always puts energy into pendulum number 1.
+	As in part (b), don\textquotesingle t damp pendulum number 1; just keep the damping
+	in pendulum number 2. Run the code long enough that the system
+	comes to a steady state in which both pendulums have constant amplitude. Discuss the flow of energy in this system.
+\end{enumerate}
+}
+\colchunk{
+\begin{wraptable}{l}{4cm}
+	\begin{tabular}{m{4cm}}
+ This driving force is essentially the same as the intermittent torque you apply to
+someone when you push
+them in a swing.
+\end{tabular}
+\end{wraptable}
+
+}
+\end{parcolumns}
+\begin{parcolumns}[colwidths={2=0.25\linewidth}]{2}
+\colchunk{
+\section{Coupled Wall Clocks}
+	Now we are ready to study a very famous problem in dynamics. In the 1600s
+	Christian Huygens observed that when two clocks are hung next to each other
+	on a wall, they tend to synchronize with each other. Let\textquotesingle s see if we can make our
+	equations of motion do this.
+\subsection*{\small{P13.3}}\label{P13.3}
+\begin{enumerate}[label=\alph*]
+\item Begin by making both pendulums be damped and driven as described
+	in \hyperref[P13.2]{P13.2}(d) and (e), but remove the coupling by setting $\omega _cc = 0$. Run
+	the code and make sure that each clock comes to its own independent
+	steady state.
+	Now add weak coupling between the two by setting $\omega _c = 0.3$ again
+	(the slight pushes and pulls that each clock exerts on the wall is the
+	source of this coupling) and see if the clocks ever synchronize with
+	each other. (Synchronization means that the two pendulums have the
+	same period with some definite phase shift between them. This effect
+	is called entrainment in the nonlinear dynamics literature).
+	When you do these runs, start pendulum 1 with$ \theta _1 = 1~ and~ \dot{\theta _1}
+	1 = 0$ and
+	try various choices for the initial conditions of pendulum number 2.
+	When they become entrained, check the phase difference between
+	the two clocks. (A visual inspection is probably sufficient). In your
+	numerical experiments, how many different phase relationships do
+	you observe? (Try overlaid plots of $\theta _1 and \theta _2$ to see the phase relationships). Do your in$-$phase and out$-$of$-$phase entrained states 	have the
+	same frequencies?
+\item  According to the nonlinear dynamics literature, entrainment is an
+	effect that depends on the oscillators being damped, driven, and
+	nonlinear. Where is the nonlinearity in our equations of motion?
+	\item Finally, let\textquotesingle s make these clocks a little more realistic by (i) replacing
+	$-\omega ^{2}\theta by -\omega ^{2}sin\theta$ in each equation of motion and by (ii) having their
+	natural frequencies be slightly different. Do this by changing $\omega _2$ in the equation of motion for pendulum 2 to
+	$1.03\omega ^{2}, 1.1\omega ^{2}, and 1.25 \omega ^{2}$ (do
+	all three cases). You should find that entrainment is relatively robust,
+	meaning that the clocks don\textquotesingle t have to have exactly the same period to
+	synchronize, but that if they are too different the effect is lost. Does
+	this robustness depend on the strength of the coupling parameter $\omega _c$ ?
+	Comment on what your answer to this last question has to do with
+	real clocks on a wall.
+\end{enumerate}
+\section{Solving Nonlinear Equations}
+	\subsection*{\small{P13.4}}\label{13.4}
+		Read and execute the examples in \textit{Introduction to Matlab}, Chapter 14. Then
+		complete the following exercises.
+	\begin{enumerate}[label=\alph*]
+			\item  Write a loop that makes an array containing the first 40 zeros of the
+			Bessel Function $J_0(x)$. Find these zeros by writing a loop to load them
+			using Matlab\textquotesingle s fzero command. You will have to give fzero a search
+			range instead of just an initial guess, and this will be easier if you
+			remember that the zeroes of $J_0(x)$ are separated by about $\pi$.
+			Look through your list of zeros and make sure that there are no repeated values. Then plot $J_0(x)$ and put a red x at every zero.
+			\item Solve the following set of equations using Matlab\textquotesingle s fsolve command 
+			$$x^{2}+y^{2}+z^{2}=139$$
+			$$\dfrac{x}{x+y-z}=3$$
+			$$x\sqrt{z}=(10-y)^{2}$$
+	\end{enumerate}
+}
+\footnotetext{\textsuperscript{2}For more information about subplots, look it up via help subplot using online help in Matlab.}
+\colchunk{
+\begin{wrapfigure}{r}{7cm}
+	\captionsetup{singlelinecheck=off, margin={3.67cm, 0cm}, justification=raggedright, format=hang}
+	\caption{ Energy passes back
+and forth between $\theta _1$ and $\theta _2$ due
+to beating.}\label {13.1}
+	\includegraphics[scale=0.8]{ch131313133}
+\end{wrapfigure}
+}
+\end{parcolumns}
+
+\end{document}

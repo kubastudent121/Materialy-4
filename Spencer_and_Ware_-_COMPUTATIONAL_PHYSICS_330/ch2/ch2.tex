@@ -1,0 +1,183 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+\chapter{Visualizations and Qualitative Analysis}
+\colchunk{
+\begin{flushleft}
+	Let\textquotesingle s start with some review of loops, logic, and matrices.
+\subsection*{\small{P2.1}}\label{P2.1}
+	Write a Matlab script that defines the following array
+\begin{lstlisting}[language=Matlab][numbers=none]
+	A=[14,42,91,79,95,65,3,84,93,67,75,74,39,65,17]
+\end{lstlisting}
+	and then performs a \textquotesingle\textquotesingle bubble sort\textquotesingle\textquotesingle to order the array elements in A from
+	smallest to largest. A bubble sort is a simple sorting algorithm that works
+	by repeatedly looping through an array using a for loop, comparing each
+	pair of adjacent items and swapping them if they are in the wrong order.
+	The for is nested inside a while that repeats until no swaps are needed in
+	the for loop. The algorithm gets its name from the way smaller elements
+	\textquotesingle\textquotesingle bubble\textquotesingle\textquotesingle to the top of the list. Step through your code using the debugging
+	commands while watching the values in A to make sure it is doing what you
+	think it should. To pass this exercise off, you must have at least 6 comment
+	lines in your code.
+\section{Line Plots}
+	Matlab has a wealth of visualization tools available to help you view your data.
+	Let\textquotesingle s look at some of the 1$-$dimensional plotting tools.
+\subsection*{\small{P2.2}}\label{P2.2}
+ 	Read and work through \textit{Introduction to Matlab}, Chapters 5. Type and
+	execute all of the material written in this kind of font and execute the
+	examples. Then complete the following exercises.
+\begin{enumerate}[label=\alph*]
+\item Make a graph of $f(x) = x sin(x)$ from $x = 0 ~to~ x = 4\pi$. Label the axes
+	and give the plot a title. Then overlay on the same frame a plot of
+	$cos(x)$ and add a legend to the plot that identifies each curve. Use
+	Matlab help for the legend command to learn how to do this.
+\item Write a script with a for loop that calculates the first 20 terms of the
+	recursion relation
+	$$a_1=1 ; a_{n+1}=(\dfrac{n}{(n-\dfrac{1}{2})(n+\dfrac{1}{2})})a_n.$$
+	And stores each value in an array a. Use Matlab\textquotesingle s debugging commands to step through your code while you watch the values change
+	in the workspace window. (HINT: $a_{20} \approx 1.3*10^{-17}$)
+	When you are sure your program is working correctly, add some code
+	to plot the values of $a_n$ versus n using semilogy. Then overlay plots
+	of $e^{−n}$ and 1/n! and label each line with a legend. Which function best
+	matches the way the an terms fall off with n? You must have at least
+	four comment lines in your code to pass it off.
+\item Define an array x that contains the values from $x = 0 ~to~ x = 5$ with a
+	step size $\Delta x = 0.01$. Make an empty array f the same size as x using
+	the zeros command. Then use a for loop and logic commands to
+	load f with the values:
+\begin{equation}\label{2.1}
+	f(x) = \left\{\begin{array}{lr}
+       e^{x}, & for~0\leq x< 1\\
+      e\times cos(x-1), & for~  1\leq n\leq 5
+      \end{array}\right\}
+\end{equation}
+	Finally, plot $f (x)$ vs. x and label your axes. You must have at least four
+	comment lines in your script to pass it off.
+	HINT: For this problem do not use a command like
+\begin{lstlisting}[language=Matlab][numbers=none]
+	if x < 1
+\end{lstlisting}
+	because x is an array, not a single number. You will need to address
+	individual elements of the arrays when you do your logic tests and
+	assignment statements.
+\end{enumerate}
+
+\section{How does a differential equation make a curve?}
+	Our purpose in this course is to analyze problems with differential equations.
+	Before becoming reliant on numerical ODE solvers, you need to develop an
+	intuition for how differential equations behave. You will need this intuition to
+	propose and refine mathematical models for physical processes and have a sense
+	of whether the solutions that a computer spits out are reasonable. If you don\textquotesingle t
+	develop good intuitive skills, the many differential equations you\textquotesingle ll encounter in
+	your physics courses will appear mysterious to you.
+	Let\textquotesingle s look at a simple differential equation and try to translate it into words:
+\begin{equation}\label{2.2}
+	\dfrac{d}{dt}y=y
+\end{equation}
+	Since 
+	$\dfrac{d}{dt}y$ is the slope of the function y(t) this differential equation says that the
+	bigger y gets the bigger its slope gets. Let\textquotesingle s consider the two possible cases for
+	initial conditions.
+\paragraph*{Case 1: y(0)>0}
+\begin{itemize}
+	\item The differential equation then says that the slope is positive, so y is increasing. But if y increases its slope increases, making y increase more, making
+	its slope increase more, etc. So the solution of this equation is a function
+	like $e^{t}$ that gets huge as t increases
+\end{itemize}
+\end{flushleft}
+}
+\colchunk
+{
+\begin{wraptable}{l}{4cm}
+	\begin{tabular}{m{4cm}}
+The bubble sort is not an efficient way to sort. Matlab\textquotesingle s
+sort command is much better, but we are learning how
+to program here.
+\end{tabular}
+\end{wraptable}
+}
+\end{parcolumns}
+\begin{parcolumns}[colwidths={2=0.3\textwidth}]{2}
+\colchunk
+{
+\paragraph*{Case 2: y(0)<0}
+\begin{itemize}
+\item Now the differential equation says that the slope is negative, so y will have
+to decrease, i.e., become more negative than it was at $t = 0$. But if y is more
+negative then the slope is more negative, making y even more negative, etc.
+Now the solution is a strongly decreasing function like $−e^{t}$
+\end{itemize}
+Now consider another example. Suppose that you have discovered some
+process in which the rate of growth of the quantity y is not proportional to y itself,
+as in exponential growth, but is instead proportional to some power of y,
+\begin{equation}\label{2.3}
+\dfrac{d}{dt}y=y^{p}
+\end{equation}
+This idea is referred to as \textquotesingle\textquotesingle explosive growth.\textquotesingle\textquotesingle Keeping in mind that with $p = 1$
+we get the exponential function, this equation says that if y starts out positive,
+y should increase even more than it did before, i.e., get bigger faster than the
+exponential function. That would have to be pretty impressive, and it is$—$y goes
+to infinity before t gets to infinity. \hyperref[Figure 2.1]{Fig. 2.1} shows a plot of the explosive growth
+function for the cases of $P = 2$ and $P = 3$.
+\hyperref[Figure 2.1]{Figure 2.1} The explosive growth
+function defined by \hyperref[2.3]{Eq. 2.3} for two
+values of P.
+You can play this qualitative analysis game with second$-$order differential
+equations too. Let\textquotesingle s translate the simple harmonic oscillator equation
+\begin{equation}\label{2.4}
+\dfrac{d^{2}}{dt^{2}}y=-y
+\end{equation}
+into words. We need to remember that the second derivative means the curvature
+of the function: a positive second derivative means that the function curves
+like the smiley face of someone who is always positive, while negative curvature
+means that it curves like a frowny face. And if the second derivative is large in
+magnitude then the smile or frown is very narrow, like a piece of string suspended
+between its two ends from fingers held close together. If the second derivative is
+small in magnitude it is like taking the same piece of string and stretching your
+arms apart to make a wide smile or frown.\\
+So what does \hyperref[2.4]{Eq. 2.4} say if $y = 1$ and $y\textquotesingle = 0$ to start? The first derivative is
+zero, so y(t) comes out flat, and the second derivative is negative, so the function
+curves downward, making y smaller, which makes the frowniness smaller, but
+still negative, so y keeps curving downward until it crosses $y = 0$. Then with y
+negative the differential equation says that the curvature is positive, making y
+start to smile and curve upward. It doesn\textquotesingle t curve much at first because y is pretty
+small in magnitude, but eventually y will have a large enough negative value
+that y(t) turns into a full$-$fledged smile, stops going negative, and heads back
+up toward $y = 0$ again. When it gets there y becomes positive, the function gets
+frowny and turns back around toward $y = 0$, etc. So the solution of this equation
+is an oscillation, cos(t) or sin(t).
+\subsection*{\small{P2.3}}\label{P2.3}
+For each of the following cases, use qualitative analysis to sketch the solution of the equation on paper.
+\begin{enumerate}[label=\alph*]
+\item
+\begin{equation}
+\dfrac{d}{dt}y=y^{2}~~~with~~~y(0)=-1
+\end{equation}
+\item 
+\begin{equation}
+\dfrac{d^{2}}{dt^{2}}y=y~~~with~~~y(0)=1~~~and~~~\dfrac{d}{dt}y(0)=0
+\end{equation}
+\end{enumerate}
+\subsection*{\small{P2.4}}\label{P2.4}
+Don\textquotesingle t start this problem until after making all of your sketches in \hyperref[P2.3]{P2.3}.
+\begin{enumerate}[label=\alph*]
+\item Verify, on paper, that the analytic solution to \hyperref[P2.3]{P2.3}(a) is $y(t) =   - 1/(1+ t)$.
+Use Matlab to plot this function and compare it to your sketch.
+\item Verify that the analytic solution to \hyperref[P2.3]{P2.3}(b) is $y(t)=(e^{-t}+e^{t})/2$ Use
+Matlab to plot this function and compare it to your sketch.
+\end{enumerate}
+}
+\colchunk
+{
+\begin{wrapfigure}{r}{9cm}
+\captionsetup{singlelinecheck=off, margin={0cm, 4cm}, justification=raggedright, format=hang}
+\caption{ The explosive growth
+function defined by \hyperref[2.3]{Eq. 2.3} for two
+values of P.}
+\label {Figure 2.1}
+\includegraphics[width=3cm]{ch2zd}
+\end{wrapfigure}
+}
+\end{parcolumns}
+\end{document}

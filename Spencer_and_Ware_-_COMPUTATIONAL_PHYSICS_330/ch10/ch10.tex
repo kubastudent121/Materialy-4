@@ -1,0 +1,371 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Pumping a Swing}
+\begin{parcolumns}[colwidths={2=0.25\linewidth}]{2}
+\colchunk{
+	A playground swing is basically a driven and damped pendulum. But there
+are two ways to pump a swing: angular momentum pumping and parametric
+oscillation. In this lab we\textquotesingle ll study and numerically model both methods.
+\section{Pumping With Angular Momentum}
+	You are probably most familiar with angular momentum pumping. In this technique, you sit on the seat and lean back, then lean forward, and lean back,etc. You
+	enhance angular momentum pumping when you stretch your legs out in front as
+	you swing forward and lean back, then tuck your legs back under as you swing
+	backward and lean forward. You can see why this works by imagining yourself
+	suspended in outer space with your arms extended to the side. If you were to
+	move your right arm up and your left arm down, your body would twist sideways
+	in the opposite direction to conserve angular momentum. Now imagine doing
+	the same thing with your arms while sitting on a swing. When your body twists
+	opposite to your arms to try to conserve angular momentum, friction between
+	your jeans and the swing seat will drag the swing with your body and you will
+	start the swing moving to the side.\\
+	Usually you want to pump a swing forward and backward rather, rather than
+	side to side. Since your torso and legs have more mass than your arms, you can
+	do a better job of pumping the swing by leaning your body and moving your legs
+	than you can by waving your arms. When you twist your body backward, you
+	exert a torque on the swing in the forward direction, and when you sit up again
+	you create a torque in the other direction. When you repeat these motions at the
+	resonant frequency $\omega _0$ of the swing, you will be resonantly driving the pendulum,
+	as we discussed in lab 7. This seems to be something that kids on a playground
+	just do without knowing any physics at all.\\
+	To see how this works analytically, consider a the model of a swinger shown in
+	\hyperref[Figure 10.1]{Figure 10.1}\textsuperscript{1} The overall position of the swing is described by $\theta$. The swinger is represented by the masses $m_1$, $m_2$, and $m_3$ and the possibility for the swinger to twist
+	is represented by $\phi$. If we make the assumption $m_2\ell _2 = m_3\ell _3$, the Lagrangian for
+	this system simplifies to
+	\begin{equation}\label{10.1}
+		L=\dfrac{1}{2}I_1\dot{\theta}^{2}+\dfrac{1}{2}I_2(\dot{\theta}+\dot{\phi})^{2}+Mq\ell _1 cos\theta
+	\end{equation}
+	$$ where ~M=m_1 +m_2+m_3,~~I_1=M{\ell _1}^{2},and ~I_2=m_2{\ell _2}^{2}+m_3{\ell _3}^{2}$$
+	\subsection*{\small{P10.1}}\label{P10.1}
+		 On paper, use the Lagrangian equation of motion for $\theta$, i.e.
+		 $$
+		 	\dfrac{\partial L}{\partial \theta}-\dfrac{d}{dt}(\dfrac{\partial L}{\partial \dot{\theta}})=0
+		 $$
+		 to generate the equation of motion for $\theta$. Then assume that the swinger
+		twists harmonically, with\\
+		\begin{equation}\label{10.2}
+		\phi(t)=A+Acos(w_\phi t)
+		\end{equation}
+		and show that the equation of motion becomes
+}
+\colchunk{
+\begin{wrapfigure}{r}{8cm}
+	\captionsetup{singlelinecheck=off, margin={0cm, 4cm}, justification=raggedright, format=hang}
+	\caption{A simple model of a
+swing being pumped from the
+seated position.}
+	\label {Figure 10.1}
+	\includegraphics[scale=0.8]{ch1010}
+\end{wrapfigure} 
+}
+\end{parcolumns}
+\footnotetext{\textsuperscript{1}This model is taken from W. B. Case and M. A. Swanson, “The pumping of a swing from the
+seated position”, American Journal of Physics 58, 463-467 (1990).}
+\newpage 
+\begin{flushright}
+\begin{minipage}[t]{10cm}
+		\begin{equation}\label{10.3}
+			\ddot{\theta}+{\omega _0}^{2}sin\theta = \alpha cos(\omega _\phi t)
+		\end{equation}
+		where
+		\begin{equation}\label{10.4}
+			{\omega _0}^{2}=\dfrac{MG\ell _1}{I_1+I_2}~~~~\alpha=\dfrac{I_2A{\omega _\phi}^{2}}{I_1+I_2}
+		\end{equation}				
+		Compare with \hyperref[7.10]{Eq. (7.10)} and confirm that this is the equation for a driven
+	pendulum.
+	\subsection*{\small{P10.2}}\label{P10.2}
+	 Add some friction to \hyperref[10.3]{Eq. 10.3} by appending a linear damping term $−\gamma \dot{\theta}$ on
+	the right$-$hand side, and then solve the modified equation numerically using Matlab. Use the following ballpark numbers for a child on a playground
+	swing: $\ell _1 = 2 m, m_1 = m_2 = m_3 = 10 kg, \ell _2 = \ell _3 = 0.5 m, and A = 0.5 rad$
+	(about 30 $\textdegree$). By experiment with a backyard swing, we find that $\gamma = 0.1s^{−1} $
+	is reasonable. Start from at$-$rest conditions and pump with $\omega _p = \omega _\phi = \omega _0$.
+	Plot the solution from $t = 0 ~to ~t = 800$ s and note that it comes to a steady
+	state amplitude as driving and damping balance. Then use the following
+	code to animate the pumping process.
+	\begin{center}
+	\textbf{Listing 10.1} (pumpanimate.m)
+	\end{center}
+\begin{lstlisting}[language=Matlab][numbers=none]
+	% Put the code solving the equation above. The code below assumes
+	% that you have evenly spaced time steps with the following variables
+	% te -> time array
+	% xe -> angle theta
+	% wp -> the pumping frequency
+	% A -> the pumping amplitude
+	% l1 -> the main swing length
+	% l2 -> the head-to-middle and middle-to-foot length
+	tau=te(2)-te(1); L = l1+l2;
+	for istep=1:length(te)
+	% Position of swing relative to the pivot
+	theta = xe(istep);
+	xswing=l1*sin(theta);
+	yswing=-l1*cos(theta);
+	% position of head/legs with respect to swing
+	phi=A + A*cos(wp*te(istep));
+\end{lstlisting}
+\end{minipage}
+\end{flushright}
+\newpage
+\begin{flushleft}
+\begin{minipage}[t]{12cm}
+\begin{lstlisting}[language=Matlab][numbers=none]
+	xpers=l2*sin(phi + theta);
+	ypers=l2*cos(phi + theta);
+	% Plot the swing and the swinger
+	plot([0, xswing],[L,L+yswing],...
+	[xswing+xpers,xswing-xpers],[L+yswing-ypers,L+yswing+ypers])
+	% Make the x and y dimensions scale equally
+	axis([-L/2 L/2 0 L])
+	axis square
+	% We'd like the plots frames to show at intervals of tau so the movie
+	% matches the physical time scale. However, the calculations
+	% and plotting take some time, so we decrease the pause a bit.
+	% Depending on the speed of your computer, you may need to adjust
+	% this offset some.
+	pause(tau-0.01)
+	end
+\end{lstlisting}
+\section{Pumping With Parametric Oscillations}
+	You can also pump a swing by standing on the seat and doing deep knee bends.
+	As you start to swing forward you bend your knees and then stand up hard as
+	you go through the bottom of the motion. When you start back you repeat this
+	motion by bending your knees and then standing up hard as you go backward
+	through the bottom of your motion\textsuperscript{2} This was easy to do on the solid wooden
+	seats that swings used to have. However, after a couple of generations of kids
+	getting their teeth knocked out by these wicked flying planks, playgrounds put
+	in soft flexible seats. These seats are safer, but they are hard to stand on while
+	moving your body up and down, so you may not have pumped a swing this way.
+	Nevertheless, it is a very good way to pump a swing, although it seems a bit
+	mysterious since no rotation is taking place. All you do is move your center of
+	mass up and down vertically and rotation of the swing magically appears. The
+	name of this mysterious technique is parametric oscillation.
+	The so$-$called parametric oscillator equation is\textsuperscript{3}
+\begin{equation}\label{10.5}
+	\ddot{x}+\gamma \dot{x}+{\omega _0}^{2}(1+\epsilon cos(\omega _p t))x=0
+\end{equation}
+	Notice that this is different from a driven oscillator because the oscillating term
+	cos ($\omega _p t$) is multiplied by x(t). What is happening here is that the natural frequency (one 	of the system parameters) is wiggling in time, which is why this is called a parametric oscillator. In the case of a swing (which is really just a pendulum) you are changing the distance $\ell$ from the top of the chain to your center
+	of mass. Since the natural frequency of a pendulum is given by ${\omega _0}^{2}=g/\ell$ as you
+	wiggle your center of mass you are wiggling the natural frequency. \hyperref[10.5]{Equation 10.5}
+	is simpler than the real equation for a pendulum. We will do the pendulum correctly later in this lab, but for small oscillation angles of the swing \hyperref[10.5]{Eq. 10.5}) gives
+	a reasonable approximation to the the motion of a swing.
+\end{minipage}
+\footnotetext{\textsuperscript{2}There are some nice videos of pumping a swing this way at http://retro.grinnell.edu/academic/
+physics/faculty/case/swing.
+}
+\footnotetext{\textsuperscript{3}L. D. Landau and E. M. Lifshitz Mechanics (Pergamon Press, New York, 1976), p. 80-83, and M.
+Abramowitz and I. A. Stegun Handbook of Mathematical Functions (Dover, New York, 1971), Chap.
+20.}
+\end{flushleft}
+\newpage
+\begin{parcolumns}[colwidths={2=0.25\linewidth}]{2}
+\colchunk{
+\subsection*{\small{P10.3}}\label{P10.3}
+\begin{enumerate}[label=\alph*]
+	\item Use Matlab to solve \hyperref[10.5]{Eq. 10.5} with initial conditions $x(0) = 0$ and
+	$v(0) = 1$, and parameters $\omega _0 = 1, \gamma = 0, \epsilon = 0.1, and \omega _p = 1.1$. Plot the
+	solution x(t) for a long enough time that you can see that nothing
+	much happens except wiggles with some beating between the natural
+	motion at $\omega _0$ and the parametric drive at $\omega _p$.\\
+	 Pumped swing instability.
+	Then run your code again with $\omega _0 = 1, \omega _p = 1, \gamma  = 0, and \epsilon = 0.1$.
+	This matches the pumping frequency with the natural frequency of
+	the swing, something you might expect would resonantly drive the
+	oscillator. Verify that the system is only weakly unstable (meaning that
+	the motion slowly grows exponentially with time.) You might have to
+	run for a long time to see this instability.
+	\item Now run your Matlab code again with $\omega _p = 2$ and watch what happens.
+	You should reproduce \hyperref[Figure 10.2]{Figure 10.2}. Verify that $\omega _p = 2\omega _0$ is more unstable
+	(i.e. the amplitude grows faster) than $\omega _p = \omega _0$. Once you see the
+	$2\omega _0$ instability on your screen, come observe it with the physical
+	pendulum at the front of the class.
+	\item Show by numerical experimentation that the oscillator is unstable
+	at $\omega _p = 2\omega _0$ for all choices of $\epsilon$, but that the instability growth rate is
+	small for small $\epsilon$.
+	\item Show that when $\omega _p$ is not quite $2\omega -0$ the oscillator is stable for small $\epsilon$,
+	but that when $\epsilon$ exceeds some threshold, it becomes unstable again.
+	Find this threshold value for $\omega _p = 2.05\omega _0$ and for $\omega _p = 1.95\omega _0$.
+	\item ow add damping by setting $\gamma = 0.03$ and show that there is a threshold value of $\epsilon$ even at $\omega _p = 2\omega _0$. Find it by numerical experimentation.
+\end{enumerate}
+	You should have discovered by now that the best way to parametrically drive
+	an oscillator is to use $\omega _p = 2\omega _0$. Is this what you do when you pump a swing by
+	standing on the seat? Think about how often you move your center of mass up
+	and down in one period of the swing and explain to your TA how $\omega_p$ and $\omega _0$ are
+	related as you do this.
+\section{Interpreting the Spectrum of the Parametric Oscillator}
+	To gain some insight into why $\omega _p = 2\omega _0$ is more unstable than $\omega _p = \omega _p$ 	it is helpful
+	to look at the power spectrum of x(t) for the parametric oscillator. In doing this analysis we will use a form of perturbation theory which all physicists love, but
+which you may not have seen. So before we look at the spectrum of x(t), let\textquotesingle s do a
+perturbation theory problem as a warm$-$up.
+Suppose that you wanted to solve the equation
+\begin{equation}\label{10.6}
+	x^{3}=1+0.1e^{x}
+\end{equation}
+for a real solution near $x = 1$. This equation is horrible, but if it weren\textquotesingle t for the $e^{x}$
+term, it wouldn\textquotesingle t be so bad: $x^{3} = 1$ so$ x = 1$. But look; the exponential term is not
+so important since it is multiplied by 0.1, which is small. Shouldn\textquotesingle t we be able to
+exploit this smallness somehow? The answer is yes, and here is how to do it, step
+by step.
+\subsection*{Step 0:} Ignore the small $e^{x}$
+term altogether and just solve the easy equation:
+\begin{equation}\label{10.7}
+	x^{3}=1~~\implies ~~x_0=1
+\end{equation}
+We call this beginning, and easiest, solution $x_0$ to keep track of which step
+we are in.
+\subsection*{Step 1:}
+ We will now get a better approximation to the solution by writing the
+equation down again, but with a twist in the small exponential term. We
+will guess that since it is small, it might be OK to replace the horrible $e^{x}$ by
+an approximate version of it, namely $e^{x_0}$
+\begin{equation}\label{10.8}
+x^{3}=1+0.1e^{x_0}~~\implies ~~x^{3}=1+0.1e^{1}~~\implies ~~x_1=(1+0.1e^{1})^{1/3}
+\end{equation}
+The replacing of $e^{x}$ by $e^{x_0}$ again made the equation easy to solve, which is
+good, but we still haven\textquotesingle t found the correct solution.
+\subsection*{Step 2:}
+ To further improve our solution we repeat step 1, writing
+\begin{equation}\label{10.9}
+x^{3}=1+0.1e^{x_1}~~\implies ~~x^{3}=1+0.1exp[(1+0.1e^{1})^{1/3}]~~\implies 
+\end{equation}
+$$x_2=(1+0.1exp[(1+0.1e^{1})^{1/3}])^{1/3}$$
+\subsection*{\small{P10.4}}\label{P10.4}
+ This procedure starts to look ugly analytically, but if we just want a numerical answer there is no point in writing all of this out. Solve \hyperref[10.6]{Eq. 10.6} by
+continuing this step by step approach all the way to 15 significant figures in
+the Matlab command window by typing
+\begin{lstlisting}[language=Matlab][numbers=none]
+format long e
+x=1
+\end{lstlisting}
+and then
+\begin{lstlisting}[language=Matlab][numbers=none]
+x=(1+0.1*exp(x))^(1/3)
+\end{lstlisting}
+and then using the $\uparrow$ key to repeat the last step over and over again. Just
+watch the result for x and quit when the digits in the answer quit changing.
+You should find that the procedure converges to $x = 1.090733645657879$;
+verify that this is the solution to the equation
+$$
+	x^{3}=1+0.1e^{x}
+$$
+This is a very powerful trick and we will now use it to understand the parametric instability at $\omega _p = 2\omega _0$.
+\subsection*{\small{P10.5}}\label{P10.5}
+Using $x(0) = 0,~ v(0) = 1, ~\omega _0 = 1,~ \omega _p = 1.3,~ \gamma = 0, ~and ~\epsilon = 0.3$, run your model
+from $t = 0~to t~ = 500$ with 214 equally spaced time steps. Take the Fourier
+transform and display its power spectrum using a semilogy plot. Our
+upcoming analysis will be easier if we consider negative frequencies, so
+use ft.m from Chapter 14 of \textit{Introduction to Matlab} and construct your
+frequency array appropriately.\\
+You should immediately notice the big peaks at $±\omega _0$. This is not a surprise
+because what we have is an oscillator at frequency $\omega _0 = 1$ plus a small
+perturbation of size $\epsilon$ at frequency $\omega _p = 1.3$. But if you look for a peak at
+$\omega = 1.3$, you won\textquotesingle t find it, even though there are plenty of other peaks. Our
+job now is to explain why these other peaks are where they are.\\
+Since $epsilon$ is small and the damping is weak, let\textquotesingle s begin by ignoring them both
+$(\epsilon = 0 ~and~ \gamma = 0)$. (This is step 0 in our perturbation analysis.) Then note that with
+these simplifications  is solved by
+\begin{equation}\label{10.10}
+x_0(t)=Acos(\omega _0t)
+\end{equation}
+Now we will proceed by perturbation theory as we did in the previous problem,
+like this. Make a more precise guess at the solution by writing \hyperref[10.5]{Eq. 10.5} down
+again, but with $x _0$ in place of x in the small term ${\omega _0}^{2}\epsilon cos(\omega _p t)x:$
+\begin{equation}\label{10.11}
+\ddot{x}+\gamma \dot{x} +{\omega _0}^{2}(1+\epsilon cos(\omega _p t))x _0=0~~\implies~~\ddot{x}+\gamma \dot{x} {+\omega _0}^{2}x \approx-\epsilon {\omega _0}^{2}cos(\omega _p t))x _0
+\end{equation}
+With $x_0 = Acos (\omega _0 t)$ this is just a complicated version of the driven harmonic
+oscillator.
+\subsection*{\small{P10.6}}\label{P10.6}
+Use Mathematica to solve this equation with $\gamma = 0$. You may need to recall
+that inhomogeneous linear differential equations like this have solutions
+of the form $x = x_h + x_p$, where $x_h$ is the homogeneous solution (without
+the parametric driving term) and where $x_p$ is the particular solution with
+the driving term included. Mathematica will give you a pretty complicated
+answer, but if you look at it closely you will see that the homogeneous
+solution is just our friend $x_0 = Acos (w_0 t)$ and that the particular solution
+(the messy part) can be written as a sum of terms that involve sines and cosines at new frequencies. It\textquotesingle s as if the driving force had a split personality
+involving more than one driving frequency. This is exactly right, as you can
+see by using the identity
+}
+\colchunk{
+	\begin{wrapfigure}{r}{7cm}
+	\captionsetup{singlelinecheck=off, margin={3cm, 0cm}, justification=raggedright, format=hang}
+	\caption{A simple model of a
+swing being pumped from the
+seated position.}
+	\label {Figure 10.2}
+	\includegraphics[scale=0.8]{ch9zd11}
+\end{wrapfigure}
+}
+\end{parcolumns}
+\begin{flushleft}
+\begin{minipage}[t]{12cm}
+$$
+	cos\alpha cos\beta = \dfrac{1}{2}(cos(\alpha +\beta) + cos(\alpha + \beta))
+$$
+to rewrite the driving term on the right side of the differential equation
+above. Do the math and see what frequencies turn up. Can you see
+these \textquotesingle\textquotesingle sideband\textquotesingle\textquotesingle frequencies in your spectrum from \hyperref[P10.5]{P10.5} and in your
+Mathematica solution?\\
+In this first$-$order perturbation theory we see that in addition to the peak at $\omega _0$,
+there are two other, smaller, sideband contributions at $(\omega _0 +\omega _p)$ and at $(\omega _0 −\omega _p)$.
+If we now take the second step in perturbation theory the driving term will be
+\begin{equation}\label{10.12}
+-\epsilon \omega _0 cos(\omega _p t))x _1
+\end{equation}
+If you use the trig identity above for this second step in the perturbation theory,
+you will find that each of the frequency components from the first$-$order step is
+multiplied by cosωp t and that they then produce new sidebands shifted again
+from the first$-$order frequencies $\pm \omega _p$. These second$-$order sidebands are smaller
+in magnitude than the first$-$order sidebands because in each step the new driving
+term is multipled by another factor of $\epsilon$. But they are clearly there in the spectrum.
+This procedure, of course, never ends, so it is easy to see that this equation can
+produce a very rich spectrum.\\
+Now, what does this have to do with the observed instability at $\omega _p = 2\omega _0$? Well,
+as we saw in first$-$order perturbation theory, when we parametrically oscillate at
+ωp the system looks like a driven oscillator with driving frequencies at $\omega _0 \pm \omega _p$.
+When $\omega _p = 2\omega _0$, the sum and difference frequencies fall at $3\omega _0$ and $−\omega _0$. Since
+one of the apparent driving frequencies is at $\omega _0$ (note that $−\omega _0$ is just as resonant
+as $\omega _0$), the system feeds back on itself and is unstable.\\
+This effect also allows us to see why $\omega _p = \omega _0$ is not the most unstable choice.
+The reason is that with this choice the sideband frequencies are 0 and $2\omega _0$, neither
+one of which is resonant. But the second$-$order sidebands are $−\omega _0, \omega _0, \omega _0$, and
+$3\omega -0$. Three out of four come back to $\omega _0$ in second order, so there is a possibility of
+instability due to this nonlinear resonance. But because it takes two perturbation
+steps to get to this resonance, and since each step involves another power of $\epsilon$,
+this choice for $\omega _p$ is less unstable.
+\subsection*{\small{P10.7}}\label{P10.7}
+ Explain all of the frequency peaks in your spectrum from \hyperref[P10.5]{P10.5} using the
+concepts explained above. Explain what the amplitudes of the various
+peaks mean and how the $\omega _p = 2\omega _0$ instability arises.
+\section{Parametrically unstable pendulum}
+When you pump a real swing, your oscillation amplitude doesn\textquotesingle t become infinite
+because the swing is a pendulum, not a harmonic oscillator. Using the Lagrangian formulation of mechanics to obtain the equation of motion of a pendulum whose
+length $\ell (t)$ is changing with time, and adding some damping because of air
+friction, gives us the equation
+\begin{equation}\label{10.13}
+\ddot{\theta}+2\dfrac{\dot{\ell}}{\ell}\dot{\theta}+\gamma \dot{\theta}+\dfrac{g}{\ell}sin\theta=0
+\end{equation}
+If we let the length change sinusoidally at frequency $\omega _p$ by only the small amount
+$\Delta L$ about the constant length $L_0$, then
+
+\begin{equation}\label{10.14}
+\ell (t)=L _0 +\Delta L cos \omega _p t
+\end{equation}
+\end{minipage}
+\end{flushleft}
+\begin{flushright}
+\begin{minipage}[t]{12cm}
+\subsection*{\small{P10.8}}\label{P10.8}
+Use Matlab to solve \hyperref[10.13]{Eq. 10.13} with (\hyperref[10.14]{10.14}) using the following realistic
+parameter values. A typical backyard swing has a length of about $L_0 = 2 m$.
+As you do deep knee bends you move most of your mass up and down, so
+the $\Delta L$ of your parametric oscillation is about half the distance you drop
+your body during the bend. Use $\gamma = 0.1 s^{−1}$
+again for the decay. In your
+numerical solution gradually increase $\Delta L$ from zero up to around 0.3 m with
+$\omega _p = 2\omega _0$ and find the threshhold value of $\Delta L$ at which the swing becomes
+unstable. (Explain to your TA why the pendulum amplitude doesn\textquotesingle t just
+keep getting bigger forever.)
+\end{minipage}
+\end{flushright}
+\end{document}

@@ -1,0 +1,207 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\setlength{\parindent}{1.5em}
+\begin{flushleft}
+\begin{minipage}[t]{12cm}
+\chapter{\textbf{Functions}}
+\section{\textbf{User}$-$\textbf{defined functions}}
+Python\textquotesingle s ecosystem is extremely rich, and you can usually find a pre-made library
+to do common manipulations. But you will also need to write your own functions.
+User$-$defined functions are created like this
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+def myFunction(a,b):
+	c = a + b
+	d = 3.0 * c
+	f = 5.0 * d**4
+	return f
+\end{lstlisting}
+This function performs several simple calculations and then uses the \textcolor{violet}{return}
+statement to pass the final result back out of the function. User$-$defined functions
+must begin with the keyword \textcolor{violet}{def} followed by the function name (you can choose
+it). Python does not use an end statement to signal the end of a function. Rather,
+it looks for indentation to determine where the function ends, just like it did with
+loops and logic.
+\indent You can integrate this function into a larger program like this
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+# The function code is not executed until 
+the function is called below.
+def myFunction(a,b):
+	c = a + b
+	d = 3.0 * c
+	f = 5.0 * d**4
+return f
+
+#The rest of this code is not part of the function.
+r = 10
+t =15
+x = myFunction(r,t)
+\end{lstlisting}
+In this case, when the function is called, the input a gets assigned the value of
+10 and input b gets assigned the value of 15. The result of this calculation (f) is
+passed out of the function and stored in the variable x.\\
+\indent A word on local and global variables is in order here. In the example above, the
+variables a, b, c, d, and f are \textit{local variables}. This means that these variables are
+used internally by the function when it is called and then immediately forgotten.
+To see what I mean, add the following \textcolor{violet}{print} statement at then end and observe
+the results
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+x = myFunction(r,t)
+print(c)
+\end{lstlisting}
+\end{minipage}
+\end{flushleft}
+\newpage
+\begin{flushright}
+\begin{minipage}[t]{12cm}
+The print statement just causes an error since Python does not remember that
+inside the function $c=a+b$.\\
+\indent In contrast, the variables r,t, and result are called \textit{global variables}, which
+means that Python remembers these assignments from anywhere, including
+inside of functions. So, technically, you could do the following:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+g = 9.8 # <--- g defined to be a global variable
+def myFunction(a,b):
+	c = a + g # <--- Notice the reference 
+	to g here
+	d = 3.0 * c
+	f = 5.0 * d**4
+	return f
+#The rest of this code is not part of this 
+function.
+r = 10
+t = 15
+x = myFunction(r,t)
+\end{lstlisting}
+and there would be no error. Notice that g has been defined as a global variable,
+and the function myFunction knows it\textquotesingle s value and can use it in a calculation.
+Using global variables inside functions is usually considered bad practice and
+can confuse those reading the code. In general, every variable used in a function
+ought to be either passed in or defined inside of the function.
+\section{\textbf{ Importing User Defined Functions}}
+If you write some functions that you find yourself using over and over again, or if
+you\textquotesingle ve written so many functions for a program that it makes your program hard
+to read, you can save your functions in a separate file and import them just like a
+Python library.\\
+\hspace{\parindent} As an example, create a blank python file and type a couple of functions to
+calculate some of the parameters of projectile motion that you learned about in
+Newtonian physics:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+import numpy as np
+def maxRange(v0,theta):
+	R = v0**2 * np.sin(2*theta) / 9.8
+	return R
+def maxHeight(v0,theta):
+	vy = v0*np.sin(theta)
+	h = vy**2 / (2*9.8)
+	return h
+\end{lstlisting}
+Then you save the code above in a file called projectile.py. Now create another
+file in that same directory, and practice importing your projectlie functions using
+the following four methods (just use one method at a time):
+\end{minipage}
+\end{flushright}
+\newpage
+\begin{flushleft}
+\begin{minipage}[t]{12cm}
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+import numpy as np
+
+#Method #1
+import projectile
+projectile.maxRange(10,np.pi/4)
+
+#Method #2
+from projectile import maxRange
+maxRange(10,np.pi/4)
+
+#Method #3
+import projectile as pf
+pf.maxRange(10,np.pi/4)
+
+#Method #4
+from projectile import *
+maxRange(10,np.pi/4)
+\end{lstlisting}
+Using these methods, you can organize your functions into neatly divided units
+that you can reuse in multiple programs. By default Spyder doesn\textquotesingle t give you great
+hints about user$-$defined functions. You can change this by going to Tools$\rightarrow$
+Preferences$\rightarrow$ Help, and clicking the boxes under \textquotesingle\textquotesingle Automatic connections.\textquotesingle\textquotesingle \\
+\indent It is possible to save your user$-$created libraries in a different folder, and then
+map to them during your import, or even make your functions available to any
+program using Python on your computer. When you are ready to work on larger
+projects where these techniques are important, you can learn about modules and
+default search paths online. However, to keep things simple in this course, just
+keep your files together in the same folder.
+\section{\textbf{Writing Readable Code}}
+\subsection*{Comments}
+You should have all had several programming courses before this one, so I\textquotesingle ll spare
+you the lecture about commenting your code. For your own sake, and for the sake
+of those who may someday need to read your code, always comment your code a
+little more than you think is necessary at the time you write it. Any text written
+after the \#{} symbol is ignored by Python as a comment:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+# A full line of commenting
+E=m*c**2 # comments after a short line of code
+\end{lstlisting}
+\subsection*{Docstrings}
+Python also has an environment like a comment that is called a docstring, delimited by a triple quote (either single or double):
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+"""
+This is a docstring, which can be automatically 
+parsed to generate
+\end{lstlisting}
+\end{minipage}
+\end{flushleft}
+\newpage
+\begin{flushright}
+\begin{minipage}[t]{12cm}
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+documentation. It is not the same as a comment.
+"""
+\end{lstlisting}
+Docstrings are placed immediately after the beginning of a module or a function
+definition, and can be used to automatically generate documentation for your
+code. You\textquotesingle ll see some people use them as a multi-line comment, but this is
+considered bad practice. If you just want to comment your code, use the \#{} symbol
+in front of multiple lines. Docstrings are important when writing large code bases
+to keep things well documented, but we won\textquotesingle t use them much in this course.
+\subsection*{Line Continuation}
+To keep your lines of code from becoming too long, Python provides two ways of
+continuing a logical line of code on the next physical line. The preferred method
+is an implicit continuation which happens when you put a line break in your code
+before closing all parenthesis, like this:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+x = (a + b
++ c)
+\end{lstlisting}
+Normally you wouldn\textquotesingle t wrap lines of code this short, but this is just an example.
+You should indent the continued line of code so that it starts right after the
+unclosed opening parenthesis. You can almost always wrap lines of code this way
+simply by added parentheses. You can also use the backslash to continue a line of
+code, like this:
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+x = a + b \
++ c
+\end{lstlisting}
+\subsection*{Code cells}
+Spyder will allow you to split your code into individual cells that can be run
+separately, without executing the whole program like this
+\begin{lstlisting}[language=Python,numbers=none,showstringspaces=false]
+#%% This is the start of a cell
+x=5
+y=6
+print(x*y)
+#%% This is the start of another cell
+a=3
+b=4
+print(a/b)
+\end{lstlisting}
+If you place your cursor in one of the cells and press Ctrl+Enter (or push the
+button to the right of the green arrow), Spyder will execute just the code in the
+current cell. We generally discourage writing code using cells. The current state
+of you program then depends on which cells you\textquotesingle ve previously executed which
+can be painful to debug. However, there are times that they can be useful.
+\end{minipage}
+\end{flushright}
+\end{document}
+%\textquotesingle
